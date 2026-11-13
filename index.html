@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="color-scheme" content="light"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Lilita+One&display=swap">
+<meta name="theme-color" content="#070b24"><title>Mari and the Magical Garden</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Quicksand:wght@500;600;700&display=swap');
+:root{--ink:#4a3426;--gold:#d9a441;--teal:#2a9d9a;--rose:#e86a92;--cream:#fff7e3}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Quicksand',sans-serif;color:var(--ink);background:radial-gradient(circle at 20% 0,#fff 0,#ffe9bd 45%,#f6d9a0 100%) fixed;min-height:100vh}
+h1,h2,h3,.brand,.eyebrow{font-family:'Berkshire Swash',serif;font-weight:400}
+h1{font-size:clamp(28px,5vw,44px);margin:2px 0;color:#8a3b6b;text-shadow:0 2px 0 #fff,0 0 14px #ffd36e}
+h2{margin:0;font-size:22px;color:#8a3b6b}h3{margin:0 0 4px;font-size:16px}p{margin:4px 0}
+.app{max-width:1120px;margin:0 auto;padding:16px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.brand{display:flex;gap:10px;align-items:center;font-size:20px;color:#8a3b6b}.brand small{display:block;font:600 12px Quicksand;color:#9b7a5a}
+.brand-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:50%;background:#fff3cf;border:2px solid var(--gold);font-size:22px}
+.stats{display:flex;gap:8px}.pill{background:var(--cream);border:2px solid var(--gold);border-radius:99px;padding:5px 14px;font-weight:700}
+.intro{text-align:center;margin:12px 0 6px}.eyebrow{color:var(--teal);font-size:15px;letter-spacing:.5px}.intro p{font-weight:600}
+.tabs{display:flex;justify-content:center;gap:8px;margin:10px 0}
+.tab{font:700 15px Quicksand;padding:9px 18px;border-radius:99px;border:2px solid var(--gold);background:var(--cream);color:var(--ink);cursor:pointer}
+.tab.active{background:linear-gradient(#ffcf5c,#f0a73a);box-shadow:0 3px 8px #c8832a55}
+.layout{display:grid;grid-template-columns:1fr 320px;gap:16px}
+.adventure,.recipe-panel{grid-column:1;grid-row:1}.rightcol{grid-column:2;grid-row:1/3;display:flex;flex-direction:column;gap:16px}
+.card{background:linear-gradient(160deg,#fffaf0,#fdeec8);border:3px solid var(--gold);border-radius:24px;padding:14px;box-shadow:inset 0 0 0 4px #fff3cf,inset 0 0 0 5px #e8c36a,0 10px 24px #8a5a2a33}
+.adventure.hide{display:none}.recipe-panel{display:none}.recipe-panel.show{display:block}
+.scene{position:relative;height:300px;border-radius:18px;overflow:hidden;border:3px solid #e8c36a;background:linear-gradient(#8fd3ff,#d9f1ff 55%,#fff1c9)}
+.sun{position:absolute;right:36px;top:22px;width:62px;height:62px;border-radius:50%;background:#ffe27a;box-shadow:0 0 0 12px #ffe27a55,0 0 40px 18px #fff0a8}
+.cloud{position:absolute;font-size:44px;opacity:.9;animation:drift 14s ease-in-out infinite alternate}.cloud.one{left:8%;top:24px}.cloud.two{left:48%;top:56px;animation-delay:-6s}
+@keyframes drift{to{transform:translateX(30px)}}
+.hill{position:absolute;left:-10%;right:-10%;bottom:-70px;height:170px;border-radius:50%;background:radial-gradient(circle at 50% 0,#8fd66a,#4ea85a)}
+.hill.back{bottom:-40px;left:20%;background:radial-gradient(circle at 50% 0,#b6e58a,#78c46a)}
+.path{position:absolute;left:50%;bottom:0;width:130px;height:70px;transform:translateX(-50%);border-radius:50% 50% 0 0;background:#f4d9a0}
+.flower{position:absolute;font-size:26px;animation:sway 3s ease-in-out infinite alternate;transform-origin:bottom}
+.f1{left:8%;bottom:34px}.f2{left:20%;bottom:16px;animation-delay:-1s}.f3{right:14%;bottom:30px;animation-delay:-2s}.f4{right:28%;bottom:12px;animation-delay:-.5s}
+@keyframes sway{to{transform:rotate(8deg)}}
+.char{position:absolute;animation:breathe 3s ease-in-out infinite;transform-origin:bottom}.char.grandma{animation-delay:-1.5s}
+@keyframes breathe{50%{transform:scale(1.025,.985)}}
+.scene-tag{position:absolute;left:12px;top:12px;background:#fff7e3cc;border:2px solid var(--gold);border-radius:99px;padding:4px 12px;font-weight:700;font-size:13px}
+.question{display:flex;gap:12px;align-items:center;margin-top:12px;background:#fff;border:2px dashed #e8c36a;border-radius:18px;padding:10px 14px}
+.portrait{flex:none;width:68px;height:68px;border-radius:50%;border:3px solid var(--gold);background:radial-gradient(#fff8d8,#ffe29a);overflow:hidden}
+.portrait svg{width:100%!important;height:100%!important}
+.speech strong{font-family:'Berkshire Swash';font-weight:400;color:#8a3b6b;font-size:17px}.speech p{font-style:italic;font-weight:600}
+.fruit-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.fruit,.meal,.ingredient{font-family:Quicksand;color:var(--ink);cursor:pointer;background:var(--cream);border:2px solid var(--gold);border-radius:18px;transition:.2s}
+.fruit{padding:12px 6px;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:15px}.fruit .emoji{font-size:52px}
+.fruit:hover:not(:disabled),.meal:hover,.ingredient:hover:not(:disabled){transform:translateY(-4px) rotate(-1deg);box-shadow:0 8px 14px #c8832a44;background:#fff}
+.fruit.correct{background:#d9f7c9;border-color:#58b84a;animation:pop .5s}.fruit.wrong{background:#ffe0e0;animation:shake .38s}.fruit:disabled{cursor:default}
+@keyframes pop{50%{transform:scale(1.12)}}@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.feedback{margin-top:12px;text-align:center;font-weight:700;color:var(--teal)}
+.primary,.recipe-card button{font:700 15px Quicksand;color:#fff;background:linear-gradient(#f58db3,var(--rose));border:2px solid #fff;border-radius:99px;padding:10px 20px;cursor:pointer;box-shadow:0 4px 10px #e86a9255}
+.recipe-head{display:flex;justify-content:space-between;align-items:center}
+.meal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin:12px 0}
+.meal{padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:2px}.meal .emoji{font-size:34px}.meal small{color:#9b7a5a;font-weight:600;text-align:center}.meal.selected{background:#ffe9a8;border-color:var(--rose)}
+.cookbox{background:#fff;border:2px dashed #e8c36a;border-radius:18px;padding:14px;text-align:center}
+.ingredients{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0;font-size:24px}
+.ingredient{padding:8px 14px;font-size:15px;font-weight:700}.ingredient.added{background:#d9f7c9;border-color:#58b84a}
+.cook-footer{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.cook-note{font-weight:700;color:var(--teal)}
+.section-title{display:flex;justify-content:space-between;align-items:center}.section-title span{font-size:13px;font-weight:700;color:var(--teal)}
+.clues{display:grid;gap:8px;margin:10px 0}
+.clue{display:flex;gap:10px;align-items:center;background:#fff;border:2px solid #f0d58a;border-radius:14px;padding:8px}.clue p{font-size:12px;margin:0}.clue.locked{opacity:.55;filter:grayscale(.5)}
+.gem{width:38px;height:38px;flex:none;display:grid;place-items:center;border-radius:50%;background:radial-gradient(#fff,#ffe29a);font-size:20px}
+.progress{height:12px;border-radius:99px;background:#f2e2b8;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,#ffcf5c,var(--rose));transition:width .6s}
+.progress-label{display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-top:4px}
+.recipe-card{text-align:center}.recipe-icon{font-size:44px}
+footer{text-align:center;margin:18px 0;font-weight:600;color:#9b7a5a}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,30px);opacity:0;background:var(--ink);color:#fff;padding:10px 20px;border-radius:99px;transition:.3s;pointer-events:none;z-index:9}.toast.show{opacity:1;transform:translate(-50%,0)}
+.sparkle{position:fixed;font-size:24px;pointer-events:none;z-index:9;animation:rise .9s forwards}@keyframes rise{to{transform:translateY(-70px) rotate(40deg);opacity:0}}
+@media(max-width:820px){.layout{grid-template-columns:1fr}.rightcol{grid-column:1;grid-row:auto}.fruit .emoji{font-size:40px}}
+.char svg{height:116px;width:auto;display:block}.char.mari{left:calc(50% - 62px);bottom:8px}.char.grandma{left:calc(50% + 8px);bottom:8px}.char.grandma svg{height:108px}.char{filter:drop-shadow(0 5px 3px #46633a44)}
+
+.tabs{flex-wrap:wrap}.tree-panel{display:none;grid-column:1;grid-row:1}.tree-panel.show{display:block}
+.tree-stage{display:grid;grid-template-columns:250px 1fr;gap:12px;align-items:center;margin-top:10px;background:linear-gradient(#bfe8ff,#eaf8d8);border:3px solid #e8c36a;border-radius:18px;padding:10px}
+.tree-wrap svg{width:100%;height:auto;display:block}.canopy{animation:sway2 5s ease-in-out infinite alternate;transform-origin:110px 150px}@keyframes sway2{to{transform:rotate(1.6deg)}}
+.blink{animation:blink 4s infinite;transform-box:fill-box;transform-origin:center}@keyframes blink{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+#tMouth{transform-box:fill-box;transform-origin:center}.talk #tMouth{animation:yap .22s infinite alternate}@keyframes yap{to{transform:scaleY(.3)}}
+.ap.gone{display:none}.basket{display:inline-block;background:var(--cream);border:2px solid var(--gold);border-radius:99px;padding:5px 14px;font-weight:700;margin-bottom:6px}
+.bub{display:flex;gap:8px;align-items:center;background:#fff;border:2px solid #e8c36a;border-radius:16px;padding:8px 12px;margin:6px 0;font-weight:600}.bub.tree{background:#eaffd9;border-color:#7ad06a}.bub .portrait{width:44px;height:44px;border-width:2px}.bub p{margin:0}
+.tree-actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:12px}.tree-actions .fruit{font-size:16px;font-weight:700}
+.ask{font:600 14px Quicksand;color:var(--ink);background:var(--cream);border:2px solid var(--gold);border-radius:14px;padding:10px;cursor:pointer;transition:.2s}.ask:hover{background:#fff;transform:translateY(-3px)}
+@media(max-width:820px){.tree-stage{grid-template-columns:1fr}.tree-wrap{max-width:240px;margin:auto}}
+.celebrate{display:none;position:fixed;inset:0;z-index:20;background:#3a1f4acc;align-items:center;justify-content:center;padding:16px}.celebrate.show{display:flex}
+.cel-card{position:relative;overflow:hidden;max-width:460px;width:100%;text-align:center;background:linear-gradient(#fff7e3,#ffe29a);border:4px solid var(--gold);border-radius:28px;padding:20px;box-shadow:0 0 50px #ffd36e;animation:pop .6s}
+.cel-chars{display:flex;justify-content:center;align-items:flex-end;gap:6px}.cel-chars svg{height:130px;width:auto}.cel-pie{font-size:76px;animation:bob 1.4s ease-in-out infinite alternate}@keyframes bob{to{transform:translateY(-10px) rotate(4deg)}}
+.confetti{position:absolute;top:-30px;font-size:24px;pointer-events:none;animation:fall 3s linear forwards}@keyframes fall{to{transform:translateY(520px) rotate(360deg)}}
+.tree-pick{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.ask.on{background:#ffe9a8;border-color:var(--rose)}.pearmode .ap circle[r="9"]{transform:scaleY(1.22);transform-box:fill-box;transform-origin:center}
+.badges{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0}.badge{text-align:center;background:#fff;border:2px solid var(--gold);border-radius:12px;padding:4px 2px}.badge span{font-size:24px;display:block}.badge small{font-size:10px;font-weight:700;line-height:1.1;display:block}.badge.locked{opacity:.45;filter:grayscale(1)}
+.diary ul{margin:6px 0 0;padding-left:18px;font-size:13px;font-weight:600}.diary li{margin:3px 0}
+
+:root{--ink:#e6f4ff;--gold:#5ef0ff;--cream:rgba(255,255,255,.07);--rose:#ff4fd8;--teal:#5ef0ff;--glass:rgba(14,22,66,.55)}
+body{font-family:'Sora',sans-serif;color:var(--ink);background:radial-gradient(circle at 12% 0,#1c2f9a 0,transparent 42%),radial-gradient(circle at 92% 18%,#6d1b94 0,transparent 38%),radial-gradient(circle at 50% 100%,#0b4a5e 0,transparent 45%),#070b24;background-attachment:fixed}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(94,240,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(94,240,255,.06) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(#000,transparent 85%)}
+.app{position:relative}
+h1,h2,.brand,.eyebrow,.speech strong{font-family:'Orbitron',sans-serif;font-weight:700;color:var(--ink);text-shadow:none}h2{font-size:17px;letter-spacing:.5px}h3{font-family:'Sora'}
+.topbar{position:sticky;top:8px;z-index:5;padding:8px 14px;border-radius:99px;background:var(--glass);backdrop-filter:blur(14px);border:1px solid #5ef0ff55;box-shadow:0 0 24px #5ef0ff22}
+.brand{font-size:15px;letter-spacing:1px}.brand small{font:500 11px Sora;color:#9fc4e8;letter-spacing:0}
+.brand-icon{background:radial-gradient(#5ef0ff55,#ff4fd833);border:1px solid #5ef0ff;box-shadow:0 0 14px #5ef0ff88}
+.pill{background:#ffffff12;border:1px solid #5ef0ff66;color:var(--ink);box-shadow:0 0 10px #5ef0ff22}
+.hero{position:relative;overflow:hidden;display:grid;grid-template-columns:1.25fr .75fr;align-items:center;gap:16px;text-align:left;margin:16px 0 8px;padding:40px 34px;border-radius:30px;background:linear-gradient(135deg,rgba(94,240,255,.14),rgba(255,79,216,.14));border:1px solid #5ef0ff66;backdrop-filter:blur(12px);box-shadow:0 0 50px #5ef0ff22,inset 0 0 60px #ffffff08}
+.hero h1{font-size:clamp(28px,5vw,54px);line-height:1.08;margin:8px 0 12px;letter-spacing:1px}.hero h1 span{background:linear-gradient(90deg,#5ef0ff,#b388ff,#ff4fd8);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 14px #5ef0ff88)}
+.hero p{max-width:480px;color:#c3dcf5;font-size:16px;margin-bottom:18px}.eyebrow{color:#5ef0ff;font-size:12px;letter-spacing:3px;text-transform:uppercase}
+.hero-stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.hero-stats span{font-size:12px;font-weight:600;padding:5px 12px;border-radius:99px;border:1px solid #ffffff33;background:#ffffff10}
+.orb{position:absolute;border-radius:50%;filter:blur(46px);opacity:.55;animation:float 9s ease-in-out infinite alternate}.o1{width:240px;height:240px;background:#5ef0ff;left:-60px;top:-80px}.o2{width:260px;height:260px;background:#ff4fd8;right:-70px;bottom:-110px;animation-delay:-4s}@keyframes float{to{transform:translate(30px,24px)}}
+.hero-text{position:relative}.hero-art{position:relative;display:flex;align-items:flex-end;justify-content:center}.hero-art::before{content:"";position:absolute;width:240px;height:240px;border-radius:50%;background:radial-gradient(#5ef0ff66,#ff4fd822 60%,transparent 70%);border:1px solid #5ef0ff55;box-shadow:0 0 40px #5ef0ff55;animation:pulse 4s ease-in-out infinite}@keyframes pulse{50%{transform:scale(1.07)}}
+.hero-art svg{position:relative;height:190px;width:auto;margin:0 -8px;filter:drop-shadow(0 0 12px #5ef0ff88);animation:breathe 3s ease-in-out infinite;transform-origin:bottom}
+.tab{background:var(--glass);border:1px solid #5ef0ff55;color:var(--ink);font-family:'Sora'}.tab:hover{box-shadow:0 0 16px #5ef0ff66}
+.tab.active{background:linear-gradient(90deg,#00d4ff,#b14bff);border-color:transparent;color:#fff;box-shadow:0 0 22px #5ef0ff88}
+.card{background:var(--glass);backdrop-filter:blur(14px);border:1px solid #5ef0ff4d;border-radius:24px;box-shadow:0 12px 40px #00000066,0 0 28px #5ef0ff1a,inset 0 0 0 1px #ff4fd822}
+.scene{border:1px solid #5ef0ff66;box-shadow:0 0 24px #5ef0ff33;background:radial-gradient(1.5px 1.5px at 12% 20%,#fff,transparent),radial-gradient(1.5px 1.5px at 30% 40%,#fff,transparent),radial-gradient(1px 1px at 55% 15%,#fff,transparent),radial-gradient(1.5px 1.5px at 70% 35%,#fff,transparent),radial-gradient(1px 1px at 88% 12%,#fff,transparent),radial-gradient(1px 1px at 40% 8%,#fff,transparent),linear-gradient(#0a0f3a,#3b1f8a 55%,#ff6fb5)}
+.sun{background:radial-gradient(circle at 35% 35%,#fff,#bff6ff 55%,#7ad7ff);box-shadow:0 0 0 10px #5ef0ff22,0 0 50px 14px #5ef0ff99}
+.cloud{opacity:.3;filter:grayscale(1) brightness(1.6)}
+.hill{background:radial-gradient(circle at 50% 0,#1fe0a8,#087a7a);box-shadow:0 -4px 20px #1fe0a888}.hill.back{background:radial-gradient(circle at 50% 0,#4a6cf0,#1b2a8a);box-shadow:none}
+.path{background:linear-gradient(#5ef0ff,#2a3aa0);box-shadow:0 0 24px #5ef0ff99}
+.flower{filter:drop-shadow(0 0 8px #ff4fd8)}.char{filter:drop-shadow(0 0 10px #5ef0ff88)!important}
+.scene-tag{background:#0b1038cc;border:1px solid #5ef0ff;color:var(--ink)}
+.question,.cookbox,.clue,.bub,.badge{background:#ffffff0d;border:1px solid #5ef0ff44;color:var(--ink)}.question,.cookbox{border-style:solid}
+.portrait{background:radial-gradient(#5ef0ff55,#1a2a6a);border:2px solid #5ef0ff;box-shadow:0 0 14px #5ef0ff66}
+.speech strong{font-size:13px;color:#5ef0ff}.speech p{font-style:normal;font-weight:500;color:#e6f4ff}
+.fruit,.meal,.ingredient,.ask{background:#ffffff0f;border:1px solid #5ef0ff55;color:var(--ink)}
+.fruit:hover:not(:disabled),.meal:hover,.ingredient:hover:not(:disabled),.ask:hover{background:#5ef0ff1f;box-shadow:0 0 20px #5ef0ff66;transform:translateY(-4px)}
+.fruit.correct,.ingredient.added{background:#4dffb02b;border-color:#4dffb0;box-shadow:0 0 18px #4dffb066}.fruit.wrong{background:#ff506433;border-color:#ff5064}
+.meal.selected,.ask.on{background:#ff4fd822;border-color:#ff4fd8;box-shadow:0 0 16px #ff4fd855}.meal small{color:#9fc4e8}
+.feedback,.cook-note,.section-title span{color:#5ef0ff}
+.primary,.recipe-card button{background:linear-gradient(90deg,#00d4ff,#b14bff 60%,#ff4fd8);border:none;color:#fff;box-shadow:0 0 22px #b14bff88;font-family:'Sora'}.primary:hover,.recipe-card button:hover{filter:brightness(1.15)}
+.gem{background:radial-gradient(#5ef0ff55,#ff4fd822);border:1px solid #5ef0ff66}.clue.locked{opacity:.5}
+.progress{background:#ffffff1a}.progress i{background:linear-gradient(90deg,#00d4ff,#ff4fd8);box-shadow:0 0 12px #5ef0ff}
+.tree-stage{background:linear-gradient(#0c1650,#0f4a58);border:1px solid #5ef0ff55}.basket{background:#ffffff12;border:1px solid #5ef0ff66}.bub.tree{background:#4dffb01f;border-color:#4dffb0aa}
+.badge.locked{opacity:.4}.diary ul{color:#c3dcf5}footer{color:#7fa4cc}
+.toast{background:#0b1038;border:1px solid #5ef0ff;box-shadow:0 0 20px #5ef0ff88}
+.celebrate{background:#04061ccc}.cel-card{background:linear-gradient(160deg,#101a5a,#3a1469);border:1px solid #5ef0ff;box-shadow:0 0 60px #b14bff}
+@media(max-width:820px){.hero{grid-template-columns:1fr;padding:26px 18px}.hero-art{margin-top:6px}.hero-art svg{height:150px}.topbar{border-radius:22px}}
+
+.seth{position:fixed;right:12px;bottom:12px;z-index:8;display:flex;flex-direction:column;align-items:flex-end;gap:4px;pointer-events:none}.seth>*{pointer-events:auto}
+.seth-bubble{display:none;max-width:270px;background:#0a1038ee;border:1px solid #5ef0ff;border-radius:16px 16px 4px 16px;padding:10px 12px;font-size:13px;font-weight:600;box-shadow:0 0 22px #5ef0ff66}.seth-bubble.show{display:block;animation:pop .35s}
+.seth-bubble b{display:block;font:700 10px Orbitron,sans-serif;color:#5ef0ff;letter-spacing:1.5px;margin-bottom:4px}.seth-bubble.danger{border-color:#ffb020;box-shadow:0 0 26px #ff6a00aa}.seth-bubble.danger b{color:#ffb020}
+.dopt{display:block;width:100%;margin-top:6px;text-align:left;font-size:13px}
+.seth-btn{background:none;border:none;cursor:pointer;padding:0;animation:sethfloat 2.6s ease-in-out infinite alternate;filter:drop-shadow(0 0 12px #5ef0ff99)}.seth-btn svg{width:96px;height:auto;display:block}@keyframes sethfloat{to{transform:translateY(-10px) rotate(-4deg)}}
+.seth.alert .seth-btn{animation:shake .4s infinite;filter:drop-shadow(0 0 16px #ffb020)}
+.wing{transform-box:view-box;transform-origin:70px 70px;animation:flap .45s ease-in-out infinite alternate}@keyframes flap{to{transform:scaleX(.5)}}
+.fruit.out{opacity:.3;text-decoration:line-through;pointer-events:none}
+.hero-seth{position:absolute;right:5%;top:10px;z-index:2;pointer-events:none}.hero-seth svg{height:84px;width:auto;display:block;animation:sethfloat 2.6s ease-in-out infinite alternate;filter:drop-shadow(0 0 12px #5ef0ff99)}
+@media(max-width:820px){.seth-btn svg{width:66px}.seth-bubble{max-width:215px}.hero-seth{display:none}}
+
+.map-panel{display:none;grid-column:1;grid-row:1}.map-panel.show{display:block}
+.map-wrap{margin-top:10px;border:1px solid #5ef0ff66;border-radius:18px;overflow:hidden;background:#070b24;box-shadow:inset 0 0 40px #5ef0ff22}.map-wrap svg{width:100%;height:auto;display:block}
+.mnode{cursor:pointer}.mnode .base{transition:.2s}.mnode:hover .base{filter:drop-shadow(0 0 10px #5ef0ff)}.mnode.cur .ring{animation:pulse 2s ease-in-out infinite;transform-box:fill-box;transform-origin:center}.mnode.locked{opacity:.45}
+.mlabel{font:700 12px Sora,sans-serif;fill:#e6f4ff}.mhaz{cursor:pointer;font-size:22px}.mhaz:hover{filter:drop-shadow(0 0 8px #ffb020)}.pin{animation:sethfloat 2s ease-in-out infinite alternate}
+.seg-next{stroke-dasharray:10 8;animation:dash 1.2s linear infinite}@keyframes dash{to{stroke-dashoffset:-36}}
+.map-info{margin-top:10px;background:#ffffff0d;border:1px solid #5ef0ff44;border-radius:16px;padding:12px;font-weight:500}.map-info b{font-family:Orbitron,sans-serif;font-size:14px;color:#5ef0ff}.map-info .primary{margin-top:8px}
+.map-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;margin-top:8px;color:#9fc4e8}
+.recipe-panel{scroll-margin-top:84px}.recipe-panel.flash{animation:flashg 1.3s}@keyframes flashg{0%,60%{box-shadow:0 0 0 3px #ff4fd8,0 0 40px #ff4fd8}100%{box-shadow:0 12px 40px #00000066,0 0 28px #5ef0ff1a}}
+
+:root{color-scheme:light}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+#story{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:16px;background:radial-gradient(circle at 30% 10%,#fff6d6,#f6d9a0 60%,#e9b96a);transition:opacity .5s}
+#story.out{opacity:0;pointer-events:none}
+#story .pg{max-width:560px;width:100%;text-align:center;background:linear-gradient(160deg,#fffaf0,#fdeec8);border:3px solid #d9a441;border-radius:26px;padding:22px;box-shadow:inset 0 0 0 4px #fff3cf,0 14px 34px #8a5a2a44}
+#story .art{display:flex;justify-content:center;gap:6px;height:150px}#story .art svg{height:150px;width:auto}
+#story .em{font-size:64px;line-height:150px}
+#story h2{font-family:'Berkshire Swash',serif;font-weight:400;color:#8a3b6b;margin:8px 0}
+#story p{font:600 17px/1.5 Quicksand,sans-serif;color:#4a3426;min-height:78px}
+#story .nav{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+#story .dots{display:flex;gap:6px}#story .dots i{width:9px;height:9px;border-radius:50%;background:#e8c36a}#story .dots i.on{background:#e86a92}
+#story button{font:700 15px Quicksand,sans-serif;color:#fff;background:linear-gradient(#f58db3,#e86a92);border:2px solid #fff;border-radius:99px;padding:10px 20px;cursor:pointer}
+#story button.skip{background:none;color:#9b7a5a;border:0;text-decoration:underline}
+/* ===== Cartoon theme ===== */
+:root{--ink:#2b1b3d;--gold:#2b1b3d;--teal:#12b5a6;--rose:#ff4f8b;--cream:#fffdf2;--sun:#ffd23f;--sky:#7fd8ff;--leaf:#5ad66f;--grape:#8a5cf6;--ol:3px solid #2b1b3d;--sh:4px 4px 0 #2b1b3d}
+body{font-family:'Fredoka','Quicksand',sans-serif;font-weight:500;background:radial-gradient(circle at 1px 1px,#ffffff66 2px,transparent 3px) 0 0/26px 26px,linear-gradient(#7fd8ff 0,#c8f1ff 38%,#d9f7c4 38.1%,#a8ec8c 100%) fixed}
+h1,h2,h3,.brand,.eyebrow{font-family:'Lilita One','Fredoka',sans-serif;letter-spacing:.5px}
+h1{color:#fff;-webkit-text-stroke:2px #2b1b3d;paint-order:stroke fill;text-shadow:4px 4px 0 #2b1b3d;transform:rotate(-1.5deg)}
+h2{color:#2b1b3d}
+.eyebrow{color:#fff;background:var(--grape);display:inline-block;padding:3px 14px;border:var(--ol);border-radius:99px;box-shadow:3px 3px 0 #2b1b3d;transform:rotate(1.5deg)}
+.brand{color:#2b1b3d}.brand small{color:#2b1b3d;font-family:Fredoka}
+.brand-icon{background:var(--sun);border:var(--ol);box-shadow:3px 3px 0 #2b1b3d;animation:bob 2.4s ease-in-out infinite}
+.pill{background:#fff;border:var(--ol);box-shadow:3px 3px 0 #2b1b3d;font-weight:700;transition:transform .15s}.pill:hover{transform:translateY(-2px) rotate(-2deg)}
+.tab{font-family:'Fredoka';font-weight:700;background:#fff;border:var(--ol);box-shadow:var(--sh);transition:transform .12s,box-shadow .12s}
+.tab:hover{transform:translate(-1px,-2px);box-shadow:5px 6px 0 #2b1b3d}
+.tab:active{transform:translate(4px,4px);box-shadow:0 0 0 #2b1b3d}
+.tab.active{background:linear-gradient(#ffe066,#ffb703);box-shadow:var(--sh)}
+.adventure,.recipe-panel,.tree-panel,.map-panel,.hero,.card,.rightcol>*,.recipe-card,.map-info,.cookbox{background:var(--cream);border:var(--ol)!important;border-radius:24px!important;box-shadow:6px 6px 0 #2b1b3d!important}
+.hero{background:linear-gradient(135deg,#ffe066,#ff9ecb)!important}
+.scene{border:var(--ol)!important;border-radius:20px!important;box-shadow:inset 0 -6px 0 #0002,4px 4px 0 #2b1b3d}
+.fruit,.meal,.ingredient,.ask,.tree-pick>*{font-family:'Fredoka';font-weight:600;background:#fff;color:#2b1b3d;border:var(--ol)!important;border-radius:18px!important;box-shadow:var(--sh);cursor:pointer;transition:transform .12s,box-shadow .12s}
+.fruit:hover,.meal:hover,.ask:hover,.ingredient:hover{transform:translate(-1px,-3px) rotate(-1deg);box-shadow:5px 7px 0 #2b1b3d}
+.fruit:active,.meal:active,.ask:active{transform:translate(4px,4px);box-shadow:0 0 0 #2b1b3d}
+.fruit.correct,.added{background:#9bf0a5!important;animation:pop .4s}
+.fruit.wrong{background:#ff9d9d!important;animation:shake .4s}
+.meal.selected{background:var(--sun)!important}
+button.primary,.primary{background:linear-gradient(#ff7ab0,#ff4f8b)!important;color:#fff!important;border:var(--ol)!important;box-shadow:var(--sh)!important;font-family:'Lilita One','Fredoka'!important;letter-spacing:.5px}
+.clue,.badge{border:var(--ol)!important;border-radius:16px!important;background:#fff;box-shadow:3px 3px 0 #2b1b3d}
+.clue.locked,.badge.locked{background:#d8d2e6;filter:grayscale(.8)}
+.bub,.speech,.seth-bubble{border:var(--ol)!important;border-radius:20px!important;background:#fff!important;box-shadow:4px 4px 0 #2b1b3d!important}
+.seth-bubble.danger{background:#ffe3e3!important}
+.progress{border:var(--ol);border-radius:99px;background:#fff;overflow:hidden}
+.portrait{border:var(--ol)!important;box-shadow:3px 3px 0 #2b1b3d}
+svg{filter:drop-shadow(2px 3px 0 rgba(43,27,61,.35))}
+.cel-card,#story .pg{border:var(--ol)!important;border-radius:28px!important;box-shadow:8px 8px 0 #2b1b3d!important;background:linear-gradient(#fffdf2,#fff0a8)!important}
+#story{background:linear-gradient(#7fd8ff,#c8f1ff 55%,#a8ec8c 55.1%)}
+#story h2{font-family:'Lilita One';color:#2b1b3d}#story p{font-family:Fredoka;color:#2b1b3d}
+#story button{font-family:'Lilita One';border:var(--ol);box-shadow:var(--sh);color:#fff}
+#story button.skip{box-shadow:none;color:#2b1b3d}
+#story .dots i{border:2px solid #2b1b3d;background:#fff}#story .dots i.on{background:var(--rose)}
+.toast{background:var(--sun)!important;color:#2b1b3d!important;border:var(--ol)!important;box-shadow:var(--sh)!important;font-weight:700}
+.hero p{color:#2b1b3d!important;font-weight:600;font-size:17px;max-width:480px}
+.hero h1 span{background:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;color:#ffd23f!important;filter:none!important;-webkit-text-stroke:2px #2b1b3d}
+.hero-stats span{color:#2b1b3d!important;background:#fff!important;border:2px solid #2b1b3d!important;box-shadow:2px 2px 0 #2b1b3d;font-weight:700}
+.hero-art::before{background:radial-gradient(#fff,#ffffff55 60%,transparent 70%)!important;border:3px dashed #2b1b3d!important;box-shadow:none!important}
+.hero-art svg,.hero-seth svg{filter:drop-shadow(3px 3px 0 rgba(43,27,61,.45))!important}
+#forestPanel{display:none;grid-column:1;grid-row:1;padding:0!important;overflow:hidden}#forestPanel.show{display:block}
+.fz{position:relative;overflow:hidden;padding:20px;min-height:480px;color:#f3eaff;text-align:center;background:radial-gradient(circle at 85% 10%,#fff6c8 0 16px,#fff6c855 17px 34px,transparent 36px),linear-gradient(#150a30,#2e1a52 65%,#173022)}
+.fz h2{color:#ffd23f;font-size:26px;position:relative}.fz p{font-size:18px;font-weight:600;min-height:72px;position:relative;max-width:560px;margin:6px auto}
+.fhead{display:flex;justify-content:space-between;align-items:center;position:relative;font-family:'Lilita One';font-size:18px}
+#fHearts{font-size:22px;letter-spacing:3px}
+.fart{font-size:58px;margin:14px 0 4px;position:relative;animation:flick 2.2s infinite;filter:drop-shadow(0 0 14px #b388ff)}
+.fopts{display:grid;gap:10px;max-width:520px;margin:10px auto;position:relative}
+.fbtn{font:600 16px Fredoka,sans-serif;color:#2b1b3d;background:#fff;border:3px solid #2b1b3d;border-radius:16px;padding:11px 14px;box-shadow:4px 4px 0 #000;cursor:pointer;transition:transform .12s}
+.fbtn:hover:not(:disabled){transform:translate(-1px,-3px) rotate(-.6deg)}.fbtn:disabled{opacity:.55;cursor:default}
+.fbtn.good{background:#9bf0a5;opacity:1}.fbtn.bad{background:#ff9d9d;animation:shake .4s}.fbtn.go{background:#ffd23f;font-family:'Lilita One'}
+.fmsg{position:relative;min-height:26px;font-weight:700;color:#ffd23f}
+.fstep{position:relative;font-size:13px;opacity:.8;margin-top:6px}
+.fog{position:absolute;left:-30%;width:160%;height:90px;background:radial-gradient(ellipse,#ffffff2e,transparent 70%);animation:drift 14s linear infinite alternate;pointer-events:none}
+.f-a{top:38%}.f-b{top:68%;animation-duration:19s;animation-direction:alternate-reverse}
+.fz.hurt{animation:shake .4s}
+.fz.l2{background:radial-gradient(circle at 15% 10%,#ffb3b3 0 14px,#ff6a6a44 15px 30px,transparent 32px),linear-gradient(#1a0720,#3d0f3a 60%,#102418)}
+.fbtn.big{font-size:26px;padding:16px}
+/* readability fixes for leftover neon-theme colors */
+.card:not(#forestPanel){color:#2b1b3d}
+.question{background:#fff!important;border:3px solid #2b1b3d!important;border-radius:20px!important;box-shadow:4px 4px 0 #2b1b3d;color:#2b1b3d!important}
+.speech strong{font-family:'Lilita One','Fredoka',sans-serif!important;font-size:19px!important;color:#c2185b!important;letter-spacing:.4px}
+.speech p{color:#2b1b3d!important;font-style:normal!important;font-weight:600!important;font-size:17px}
+.feedback{color:#0b6e66!important;font-weight:700}
+.cook-note,.section-title span,.map-legend,.progress-label{color:#0b6e66!important}
+.diary ul,.diary li,.journal li,.clue,.clue *,.badge,.bub,.bub p,.cookbox,.cookbox p,.cookbox h3,.recipe-head p,.map-info,.map-info p{color:#2b1b3d!important}
+.tab.active,.tab{color:#2b1b3d!important}
+.recipe-card button,.cook-footer button{background:linear-gradient(#ff7ab0,#ff4f8b)!important;color:#fff!important;border:3px solid #2b1b3d!important;border-radius:16px!important;box-shadow:3px 3px 0 #2b1b3d;font-family:'Lilita One','Fredoka',sans-serif;cursor:pointer}
+.seth-bubble,.seth-bubble p,.seth-bubble b{color:#2b1b3d!important}.seth-bubble.danger b{color:#c01818!important}
+.ingredient{color:#2b1b3d!important}
+.hero .primary{background:#2b1b3d!important;color:#ffd23f!important;border:3px solid #fff!important;border-radius:99px!important;padding:14px 32px!important;font-size:20px!important;box-shadow:0 0 0 3px #2b1b3d,6px 7px 0 #2b1b3d!important;text-shadow:none!important;filter:none!important;opacity:1!important;transition:transform .12s,box-shadow .12s}
+.hero .primary:hover{transform:translate(-2px,-3px);box-shadow:0 0 0 3px #2b1b3d,8px 10px 0 #2b1b3d!important;filter:none!important}
+.hero .primary:active{transform:translate(4px,5px);box-shadow:0 0 0 3px #2b1b3d,2px 2px 0 #2b1b3d!important}
+/* ===== Enchanted forest redesign ===== */
+#forestPanel .fz{position:relative;overflow:hidden;min-height:560px;padding:18px 16px 120px;color:#fff;text-align:center;background:radial-gradient(circle at 84% 13%,#fffbe0 0 20px,#fff2b066 21px 58px,transparent 62px),radial-gradient(ellipse at 50% 105%,#2fa39a55,transparent 62%),linear-gradient(#120a3a,#2a1a6b 48%,#1d5370 88%)}
+#forestPanel .fz.l2{background:radial-gradient(circle at 16% 13%,#ffe3ee 0 20px,#ff9ec266 21px 58px,transparent 62px),radial-gradient(ellipse at 50% 105%,#c23a8a44,transparent 62%),linear-gradient(#1a0733,#4b1458 50%,#2c2a66 90%)}
+#forestPanel .fz::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(2px 2px at 8% 18%,#fff,transparent),radial-gradient(2px 2px at 22% 42%,#fff,transparent),radial-gradient(1.5px 1.5px at 36% 12%,#ffe9a8,transparent),radial-gradient(2px 2px at 52% 30%,#fff,transparent),radial-gradient(1.5px 1.5px at 66% 14%,#fff,transparent),radial-gradient(2px 2px at 74% 46%,#ffe9a8,transparent),radial-gradient(1.5px 1.5px at 92% 36%,#fff,transparent),radial-gradient(2px 2px at 14% 66%,#c9b8ff,transparent),radial-gradient(2px 2px at 88% 70%,#c9b8ff,transparent);animation:twk 3.5s ease-in-out infinite alternate}
+#forestPanel .fz::after{content:"";position:absolute;left:0;right:0;bottom:0;height:110px;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 80' preserveAspectRatio='none'%3E%3Cpath fill='%23122a3a' d='M0 80V46l15-40 15 40 10-22 15 32 15-42 18 46 12-26 14 36 16-44 16 44 12-24 16 34 14-38 18 44 12-26 15 32 15-40 17 46 13-22 14 36V80z'/%3E%3C/svg%3E") repeat-x bottom/520px 100px,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 80' preserveAspectRatio='none'%3E%3Cpath fill='%2306121c' d='M0 80V56l20-44 20 44 14-24 18 36 18-50 20 54 14-30 16 40 18-52 18 52 14-28 18 38 16-44 20 50 14-30 18 36 16-46 20 52 14-26 14 40V80z'/%3E%3C/svg%3E") repeat-x bottom/700px 80px}
+#forestPanel .fz>*{position:relative;z-index:1}
+#forestPanel .fz>.fog{position:absolute;z-index:0;opacity:.6}
+#forestPanel .fhead{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Lilita One',sans-serif;font-size:17px}
+#forestPanel .fhead>b,#forestPanel #fHearts{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.4);border-radius:99px;padding:6px 14px;color:#fff;font-weight:400}
+#forestPanel #fSnd{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.4);box-shadow:none;padding:5px 11px;border-radius:99px}
+#forestPanel .fart{display:inline-block;max-width:92%;height:auto;min-width:110px;line-height:1.25;padding:12px 26px;margin:16px auto 6px;font-size:clamp(30px,8vw,46px);border-radius:60px;background:radial-gradient(#ffffff38,#ffffff0a 75%);border:2px solid #ffffff55;box-shadow:0 0 36px #b388ffaa,inset 0 0 20px #ffffff22;white-space:nowrap;overflow:visible}
+#forestPanel .fcard{max-width:620px;margin:14px auto 0;padding:20px 18px;background:rgba(18,10,58,.86);border:2px solid #ffd23f99;border-radius:26px;box-shadow:0 12px 40px #000a,inset 0 0 0 1px #ffffff1a;backdrop-filter:blur(6px)}
+#forestPanel .fz h2{margin:0 0 8px;color:#ffd23f!important;font-size:28px;text-shadow:0 0 18px #ffd23f66!important;-webkit-text-stroke:0}
+#forestPanel .fz p{margin:0 auto 14px;min-height:0;color:#fff!important;font:500 18px/1.55 Fredoka,sans-serif;max-width:540px;text-align:center}
+#forestPanel .fopts{display:grid;gap:10px;margin:0 auto;max-width:540px}
+#forestPanel .fbtn{font:600 17px/1.3 Fredoka,sans-serif;text-align:left;padding:14px 16px;color:#2b1b3d;background:linear-gradient(#fffdf5,#ffeab8);border:2px solid #ffd23f;border-radius:16px;box-shadow:0 4px 0 #b57f1f;transition:transform .12s,box-shadow .12s}
+#forestPanel .fbtn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 6px 0 #b57f1f,0 0 20px #ffd23f88}
+#forestPanel .fbtn:disabled{opacity:.5}
+#forestPanel .fbtn.good{background:linear-gradient(#c8ffd0,#8de99b);border-color:#2f9e44;box-shadow:0 4px 0 #2f9e44;opacity:1}
+#forestPanel .fbtn.bad{background:linear-gradient(#ffd0d0,#ff9d9d);border-color:#d63a3a;box-shadow:0 4px 0 #d63a3a}
+#forestPanel .fbtn.go{text-align:center;font-family:'Lilita One',sans-serif;font-weight:400;background:linear-gradient(#ffe066,#ffb703);box-shadow:0 4px 0 #b57f1f}
+#forestPanel .fbtn.big{text-align:center;font-size:34px;padding:14px}
+#forestPanel .fmsg{margin:14px auto 0;max-width:540px;padding:10px 14px;border-radius:14px;background:rgba(255,226,122,.16);border:1px solid #ffe27a88;color:#ffe27a!important;font:700 17px/1.4 Fredoka,sans-serif;min-height:0}
+#forestPanel .fmsg:empty{display:none}
+#forestPanel .fstep{margin-top:12px;color:#d8d0ff;font-weight:600}
+@keyframes twk{from{opacity:.45}to{opacity:1}}
+.question{padding:14px 16px!important;gap:14px!important}
+.question .speech{flex:1 1 0;min-width:0;border:0!important;box-shadow:none!important;background:transparent!important;border-radius:0!important;padding:0!important;overflow-wrap:anywhere}
+.question .speech p{margin:4px 0 0;line-height:1.4}
+.question .portrait{width:64px;height:64px}.fopts .fbtn.big.go{font-size:22px}
+@keyframes flick{0%,100%{opacity:1}45%{opacity:.75}50%{opacity:1}55%{opacity:.6}}
+@keyframes drift{to{transform:translateX(18%)}}
+@keyframes bob{50%{transform:translateY(-5px) rotate(6deg)}}
+@keyframes pop{50%{transform:scale(1.12)}}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.cookbox ul.need{list-style:none;margin:10px 0;padding:0;display:grid;gap:8px}.cookbox ul.need li{background:#fff;border:2px solid #2b1b3d;border-radius:12px;padding:8px 12px;font-weight:700;color:#2b1b3d}
+.needbtns{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+#resetBtn{display:block;margin:18px auto 8px;font:600 14px Fredoka,sans-serif;color:#2b1b3d;background:#fff;border:2px solid #2b1b3d;border-radius:99px;padding:8px 18px;box-shadow:3px 3px 0 #2b1b3d;cursor:pointer}
+/* ===== Forest: modern animated-film glow ===== */
+#forestPanel .fz{background:radial-gradient(circle at 84% 13%,#fff8e0 0 20px,#fff6d84d 21px 46px,#fff6d822 47px 84px,transparent 86px),radial-gradient(ellipse at 20% 100%,#2fd3c455,transparent 55%),linear-gradient(#150d52,#3a2a7c 52%,#2b6f93)}
+#forestPanel .fz.l2{background:radial-gradient(circle at 16% 13%,#ffe8f2 0 20px,#ffb3d14d 21px 46px,#ff9ec222 47px 84px,transparent 86px),radial-gradient(ellipse at 80% 100%,#ff5fc055,transparent 55%),linear-gradient(#1c0a45,#5a1f78 52%,#35318a)}
+#forestPanel .fz::after{height:130px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 130' preserveAspectRatio='none'%3E%3Cpath fill='%233b4a98' fill-opacity='.9' d='M0 130V60Q80 10 170 50T340 40T520 55T600 45V130z'/%3E%3Cpath fill='%232a3a80' d='M0 130V85Q120 40 240 78T460 70T600 82V130z'/%3E%3Cpath fill='%2316245a' d='M0 130V108Q150 78 300 104T600 98V130z'/%3E%3C/svg%3E") no-repeat bottom/100% 130px}
+#forestPanel .fz.l2::after{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 130' preserveAspectRatio='none'%3E%3Cpath fill='%23634095' fill-opacity='.9' d='M0 130V60Q80 10 170 50T340 40T520 55T600 45V130z'/%3E%3Cpath fill='%234a2c7c' d='M0 130V85Q120 40 240 78T460 70T600 82V130z'/%3E%3Cpath fill='%2328124f' d='M0 130V108Q150 78 300 104T600 98V130z'/%3E%3C/svg%3E") no-repeat bottom/100% 130px}
+#forestPanel .fcard{box-shadow:0 12px 40px #0009,0 0 44px #b388ff55,inset 0 0 0 1px #ffffff22;border-color:#ffe08a}
+#forestPanel .fart{box-shadow:0 0 44px #ffd86bcc,inset 0 0 24px #ffffff30;background:radial-gradient(#ffffff40,#ffffff0d 75%)}
+#forestPanel .fbtn:hover:not(:disabled){box-shadow:0 6px 0 #b57f1f,0 0 28px #ffe27acc}
+.ff{position:absolute!important;z-index:0!important;width:6px;height:6px;border-radius:50%;background:#fff4a8;box-shadow:0 0 10px 4px #ffe66d99;animation:ffly 6s ease-in-out infinite alternate;pointer-events:none}
+.mush{position:absolute!important;z-index:0!important;bottom:30px;width:46px;height:24px;border-radius:50% 50% 10px 10px;pointer-events:none;animation:twk 2.5s ease-in-out infinite alternate}
+.mush.c{left:5%;background:#5ff0ff;box-shadow:0 0 30px 12px #5ff0ff66}.mush.p{right:6%;background:#ff7ad9;box-shadow:0 0 30px 12px #ff7ad966}
+@keyframes ffly{0%{transform:translate(0,0);opacity:.2}50%{opacity:1}100%{transform:translate(26px,-34px);opacity:.3}}
+.topbar{background:#fffdf2!important;border:3px solid #2b1b3d!important;box-shadow:4px 4px 0 #2b1b3d!important;backdrop-filter:none!important}
+.topbar .brand,.topbar .brand small{color:#2b1b3d!important}
+</style></head>
+<body><main class="app">
+<header class="topbar"><div class="brand"><div class="brand-icon">🌱</div><div>Mari’s Garden Club<small>A little magic grows here</small></div></div><div class="stats"><div class="pill">💎 <span id="gemCount">0</span></div><div class="pill">⭐ <span id="starCount">0</span></div><div class="pill">🍎 <span id="appleCount">0</span></div></div></header>
+<section class="intro hero"><i class="orb o1"></i><i class="orb o2"></i><div class="hero-text"><div class="eyebrow">Interactive storybook · Level 1</div><h1>Mari and the <span>Magical Garden</span></h1><p>Solve riddles, chat with talking trees, and cook up a feast in a garden that glows with magic.</p><button class="primary" onclick="document.querySelector('.tabs').scrollIntoView({behavior:'smooth'})">▶ Start the adventure</button><div class="hero-stats"><span>5 garden clues</span><span>1 talking tree</span><span>Garden map</span><span>7 recipes</span><span>8 badges</span><span>Guided by Tristan 🦋</span></div></div><div class="hero-art" id="heroArt"></div></section>
+<nav class="tabs"><button class="tab active" data-view="adventure">🌿 Garden adventure</button><button class="tab" data-view="map">🗺️ Garden map</button><button class="tab" data-view="recipes">🍰 Nana’s kitchen</button><button class="tab" data-view="tree">🍎 Talking Apple Tree</button><button class="tab" data-view="forest">🌲 Dark forest</button></nav>
+<div class="layout"><section class="card adventure" id="adventure">
+<div class="scene"><div class="sun"></div><div class="cloud one">☁️</div><div class="cloud two">☁️</div><div class="hill back"></div><div class="hill"></div><div class="path"></div><span class="flower f1">🌼</span><span class="flower f2">🌷</span><span class="flower f3">🌻</span><span class="flower f4">🌸</span><span class="char mari" id="sceneMari"></span><span class="char grandma" id="sceneNana"></span><div class="scene-tag">📍 <span id="location">The Sunbeam Orchard</span></div></div>
+<div class="question"><div class="portrait" id="speaker"></div><div class="speech"><strong id="promptTitle">A riddle from Nana</strong><p id="promptText">“Golden and sunny, with a peel like a little jacket. What fruit am I thinking of?”</p></div></div>
+<div class="fruit-row" id="fruitRow"></div><div class="feedback" id="feedback">Choose the fruit that matches Nana’s clue!</div></section>
+<section class="card recipe-panel" id="recipePanel"><div class="recipe-head"><div><h2>Nana’s Recipe Book</h2><p>Pick a meal, then gather the ingredients to make Nana smile.</p></div><span style="font-size:35px">📖</span></div><div class="meal-grid" id="mealGrid"></div><div class="cookbox" id="cookbox"><h3>Choose a recipe to begin</h3><p>Every good garden adventure has a delicious side quest.</p><div class="ingredients">🍓 🥕 🥚 🍯 🥧</div></div></section>
+<section class="card tree-panel" id="treePanel"><div class="recipe-head"><div><h2 id="treeTitle">Rosie the Talking Apple Tree</h2><p>Ask her anything, or solve her riddles to win apples for Nana’s pie!</p></div><button class="ask" id="voiceBtn">🔊 Voice: off</button></div><div class="tree-stage"><div class="tree-wrap"><svg viewBox="0 0 220 250" role="img" aria-label="Rosie the talking apple tree"><ellipse cx="110" cy="242" rx="70" ry="8" fill="#2d5a3a" opacity=".25"/><path d="M84 241Q90 192 82 150Q110 134 138 150Q130 192 136 241Z" fill="#a8734a"/><path d="M96 235q-2-20 2-34M126 232q3-18-1-32" stroke="#8a5a36" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M84 168Q62 158 50 138M136 168Q158 158 170 138" stroke="#a8734a" stroke-width="10" fill="none" stroke-linecap="round"/><g class="canopy"><g fill="#4fae55"><circle cx="110" cy="72" r="52"/><circle cx="62" cy="100" r="38"/><circle cx="158" cy="100" r="38"/><circle cx="85" cy="48" r="34"/><circle cx="136" cy="48" r="34"/></g><g fill="#78cf6a"><circle cx="92" cy="40" r="16"/><circle cx="52" cy="92" r="12"/><circle cx="140" cy="38" r="12"/></g><g class="ap" id="ap0" transform="translate(80 72)"><path d="M0-8q1-5 4-6" stroke="#6b4a2a" stroke-width="2" fill="none"/><circle r="9" fill="#e5383b"/><circle cx="-3" cy="-3" r="2.6" fill="#fff" opacity=".7"/></g><g class="ap" id="ap1" transform="translate(120 56)"><path d="M0-8q1-5 4-6" stroke="#6b4a2a" stroke-width="2" fill="none"/><circle r="9" fill="#e5383b"/><circle cx="-3" cy="-3" r="2.6" fill="#fff" opacity=".7"/></g><g class="ap" id="ap2" transform="translate(148 88)"><path d="M0-8q1-5 4-6" stroke="#6b4a2a" stroke-width="2" fill="none"/><circle r="9" fill="#e5383b"/><circle cx="-3" cy="-3" r="2.6" fill="#fff" opacity=".7"/></g><g class="ap" id="ap3" transform="translate(58 106)"><path d="M0-8q1-5 4-6" stroke="#6b4a2a" stroke-width="2" fill="none"/><circle r="9" fill="#e5383b"/><circle cx="-3" cy="-3" r="2.6" fill="#fff" opacity=".7"/></g><g class="ap" id="ap4" transform="translate(108 102)"><path d="M0-8q1-5 4-6" stroke="#6b4a2a" stroke-width="2" fill="none"/><circle r="9" fill="#e5383b"/><circle cx="-3" cy="-3" r="2.6" fill="#fff" opacity=".7"/></g><g class="ap" id="ap5" transform="translate(162 114)"><path d="M0-8q1-5 4-6" stroke="#6b4a2a" stroke-width="2" fill="none"/><circle r="9" fill="#e5383b"/><circle cx="-3" cy="-3" r="2.6" fill="#fff" opacity=".7"/></g></g><g class="blink"><ellipse cx="97" cy="180" rx="7" ry="8.5" fill="#fff"/><circle cx="98" cy="182" r="4.2" fill="#2e1a0e"/><circle cx="96" cy="179" r="1.8" fill="#fff"/></g><g class="blink"><ellipse cx="123" cy="180" rx="7" ry="8.5" fill="#fff"/><circle cx="124" cy="182" r="4.2" fill="#2e1a0e"/><circle cx="122" cy="179" r="1.8" fill="#fff"/></g><path d="M89 168q8-6 15-2M131 168q-8-6-15-2" stroke="#5a3a20" stroke-width="2.4" fill="none" stroke-linecap="round"/><ellipse cx="88" cy="196" rx="5" ry="3" fill="#ff9a8a" opacity=".6"/><ellipse cx="132" cy="196" rx="5" ry="3" fill="#ff9a8a" opacity=".6"/><ellipse id="tMouth" cx="110" cy="199" rx="9" ry="6" fill="#8f2a3a"/><path d="M104 202q6 4 12 0" stroke="#ff8a9a" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg></div><div><div class="basket">🧺 <b id="basketNum">0</b> / 6 <span id="basketLbl">apples</span></div><div id="treeChat"></div></div></div><div class="tree-actions" id="treeActions"></div></section><section class="card" id="forestPanel"><div class="fz"><div class="fog f-a"></div><div class="fog f-b"></div><div class="fhead"><b>🌲 The Whispering Forest</b><span id="fHearts"></span><button class="fbtn" id="fSnd" aria-label="Toggle sound" style="padding:3px 10px;box-shadow:2px 2px 0 #000">🔊</button></div><div class="fart" id="fArt"></div><div class="fcard"><h2 id="fT"></h2><p id="fX"></p><div id="fO" class="fopts"></div><div id="fM" class="fmsg"></div></div><div class="fstep" id="fS"></div></div></section>
+<section class="card map-panel" id="mapPanel"><div class="recipe-head"><div><h2>Garden Map</h2><p>Tap any place to explore. The glowing path shows where Mari is headed next.</p></div></div><div class="map-wrap" id="mapWrap"></div><div class="map-legend"><span>✅ Found</span><span>📍 Mari is here</span><span>🔒 Not unlocked yet</span><span>⚠️ Danger spots</span></div><div class="map-info" id="mapInfo"></div></section><aside class="rightcol"><section class="card journal"><div class="section-title"><h2>Adventure journal</h2><span id="clueCount">0 / 5 clues</span></div><div class="clues" id="clues"></div><div class="progress"><i id="progressBar" style="width:0%"></i></div><div class="progress-label"><span>Garden discoveries</span><span id="progressLabel">0%</span></div></section><section class="card recipe-card"><div class="recipe-icon">🥧</div><h2>A kitchen side quest!</h2><p>Nana is planning a whole week of yummy treats. Help Mari fill her recipe book.</p><button id="recipeJump">Open the recipe book →</button></section><section class="card diary"><div class="section-title"><h2>Garden Diary</h2></div><div class="badges" id="badges"></div><ul id="diaryList"></ul></section></aside></div>
+<footer>Made with a little imagination & lots of garden magic ✨</footer><button id="resetBtn" type="button">↺ Start a new game</button></main><div class="seth" id="seth"><div class="seth-bubble" id="sethBubble"></div><button class="seth-btn" id="sethBtn" aria-label="Ask Tristan the butterfly for a hint" title="Tap Tristan for a hint"><svg viewBox="0 0 140 130" role="img" aria-label="Tristan the butterfly"><defs><linearGradient id="sw1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5ef0ff"/><stop offset="1" stop-color="#8a5bff"/></linearGradient><linearGradient id="sw2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a5bff"/><stop offset="1" stop-color="#1fe0a8"/></linearGradient></defs><g class="wing"><path d="M64 62C40 8 4 12 8 46c2 22 30 30 56 18z" fill="url(#sw1)" stroke="#2a1a6a" stroke-width="2.5"/><path d="M64 70C34 66 18 92 32 106c14 8 30-14 32-36z" fill="url(#sw2)" stroke="#2a1a6a" stroke-width="2.5"/><circle cx="26" cy="34" r="6" fill="#ffe27a"/><circle cx="38" cy="52" r="3.5" fill="#fff" opacity=".85"/><circle cx="40" cy="94" r="4" fill="#ffe27a"/></g><g transform="translate(140 0) scale(-1 1)"><g class="wing"><path d="M64 62C40 8 4 12 8 46c2 22 30 30 56 18z" fill="url(#sw1)" stroke="#2a1a6a" stroke-width="2.5"/><path d="M64 70C34 66 18 92 32 106c14 8 30-14 32-36z" fill="url(#sw2)" stroke="#2a1a6a" stroke-width="2.5"/><circle cx="26" cy="34" r="6" fill="#ffe27a"/><circle cx="38" cy="52" r="3.5" fill="#fff" opacity=".85"/><circle cx="40" cy="94" r="4" fill="#ffe27a"/></g></g><ellipse cx="70" cy="88" rx="8" ry="24" fill="#2a1a4a"/><path d="M63 80h14M63 90h14M64 100h12" stroke="#ffd36e" stroke-width="2"/><path d="M60 30Q52 14 44 10M80 30Q88 14 96 10" stroke="#2a1a4a" stroke-width="2.4" fill="none" stroke-linecap="round"/><circle cx="44" cy="10" r="4" fill="#5ef0ff"/><circle cx="96" cy="10" r="4" fill="#5ef0ff"/><circle cx="70" cy="49" r="17" fill="#ffcf9e" stroke="#2a1a4a" stroke-width="2"/><ellipse cx="63" cy="50" rx="4.6" ry="6" fill="#fff"/><ellipse cx="77" cy="50" rx="4.6" ry="6" fill="#fff"/><circle cx="63.6" cy="51" r="3.2" fill="#2b1a4a"/><circle cx="77.6" cy="51" r="3.2" fill="#2b1a4a"/><circle cx="62.4" cy="49" r="1.3" fill="#fff"/><circle cx="76.4" cy="49" r="1.3" fill="#fff"/><path d="M63 58Q70 65 77 58" stroke="#a8394a" stroke-width="2.2" fill="none" stroke-linecap="round"/><ellipse cx="57" cy="58" rx="3" ry="2" fill="#ff8a9a" opacity=".6"/><ellipse cx="83" cy="58" rx="3" ry="2" fill="#ff8a9a" opacity=".6"/><path d="M53 41Q53 24 70 24Q87 24 87 41Q70 35 53 41z" fill="#ff4fd8" stroke="#2a1a4a" stroke-width="1.8"/><path d="M84 38q14 0 16 7q-9 1-17-3z" fill="#c9308f"/><circle cx="70" cy="30" r="2.6" fill="#ffe27a"/><path d="M70 68l-10-6v12zM70 68l10-6v12z" fill="#ffe27a" stroke="#2a1a4a" stroke-width="1.2"/></svg></button></div><div class="celebrate" id="celebrate"></div><div class="toast" id="toast"></div>
+<script>
+const rounds=[
+{place:'The Sunbeam Orchard',title:'A riddle from Nana',text:'“Golden and sunny, with a peel like a little jacket. What fruit am I thinking of?”',answer:'Banana',opts:[['🍌','Banana'],['🍎','Apple'],['🍇','Grapes']],clue:'The Golden Gate',note:'A tiny golden key glimmers in the grass.'},
+{place:'Bluebell Berry Patch',title:'Mari spots a sparkle!',text:'“A little red jewel, dotted with seeds, hiding under a leaf. Can you find it?”',answer:'Strawberry',opts:[['🍒','Cherry'],['🍓','Strawberry'],['🍑','Peach']],clue:'The Berry Bell',note:'A bell made of bluebells rings once.'},
+{place:'Moonbeam Melon Grove',title:'A whisper in the vines',text:'“I’m green outside, pink inside, with little black stars. Who am I?”',answer:'Watermelon',opts:[['🥝','Kiwi'],['🍈','Melon'],['🍉','Watermelon']],clue:'The Star Map',note:'A map of the garden appears in moonlight.'},
+{place:'Nana’s Apple Tree',title:'Nana’s last clue',text:'“Crisp and crunchy, red or green. I make the yummiest pie!”',answer:'Apple',opts:[['🍐','Pear'],['🍎','Apple'],['🥭','Mango']],clue:'The Pie Promise',note:'The orchard’s secret recipe is revealed!'},
+{place:'The Wishing-Well Garden',title:'One last garden surprise',text:'“A fuzzy golden friend, sweet and juicy inside. Which fruit am I?”',answer:'Peach',opts:[['🍑','Peach'],['🍋','Lemon'],['🍍','Pineapple']],clue:'The Wish Gem',note:'The wishing well grants Mari a garden gem!'}
+];
+const eye=(x,iris)=>`<ellipse cx="${x}" cy="58" rx="7" ry="8.5" fill="#fff"/><ellipse cx="${x+.5}" cy="59" rx="5.2" ry="7" fill="${iris}"/><circle cx="${x+.5}" cy="60" r="2.6" fill="#1a0e06"/><circle cx="${x-1.5}" cy="55.5" r="2.3" fill="#fff"/><circle cx="${x+2.5}" cy="62" r="1" fill="#fff"/>`;
+const faceBits=(iris)=>eye(40,iris)+eye(60,iris)+`<path d="M32 53Q37 46 46 49M68 53Q63 46 54 49" stroke="#2e1a0e" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M49 67q1 1.6 2.4 0" stroke="#8a5636" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M43 71Q50 80 57 71Q50 73.5 43 71z" fill="#8f2a3a" stroke="#8f2a3a" stroke-width="1.5" stroke-linejoin="round"/><ellipse cx="32" cy="68" rx="4.2" ry="2.6" fill="#ec8a76" opacity=".55"/><ellipse cx="68" cy="68" rx="4.2" ry="2.6" fill="#ec8a76" opacity=".55"/>`;
+const portraits={mari:`<svg viewBox="0 0 100 140" role="img" aria-label="Mari"><defs><linearGradient id="md" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4fd1c5"/><stop offset="1" stop-color="#2a9d9a"/></linearGradient><radialGradient id="mi"><stop offset="0" stop-color="#5a3419"/><stop offset="1" stop-color="#3a200f"/></radialGradient></defs><ellipse cx="50" cy="135" rx="28" ry="4" fill="#2d5a3a" opacity=".25"/><circle cx="23" cy="27" r="13" fill="#2a1810"/><circle cx="77" cy="27" r="13" fill="#2a1810"/><g fill="#2a1810"><circle cx="36" cy="17" r="9"/><circle cx="50" cy="12" r="9"/><circle cx="64" cy="17" r="9"/><circle cx="20" cy="48" r="7"/><circle cx="17" cy="60" r="7"/><circle cx="20" cy="72" r="7"/><circle cx="26" cy="84" r="7"/><circle cx="80" cy="48" r="7"/><circle cx="83" cy="60" r="7"/><circle cx="80" cy="72" r="7"/><circle cx="74" cy="84" r="7"/></g><path d="M50 14C22 12 14 46 22 70c3 12 8 20 14 24L64 94c6-4 11-12 14-24 8-24 0-58-28-56z" fill="#2a1810"/><path d="M22 133Q27 96 40 86h20Q73 96 78 133z" fill="url(#md)"/><path d="M22 133q28 6 56 0l1 3q-29 7-58 0z" fill="#ffd36e"/><path d="M40 86l10 14 10-14z" fill="#fff6e0"/><circle cx="33" cy="90" r="7" fill="#4fd1c5"/><circle cx="67" cy="90" r="7" fill="#4fd1c5"/><circle cx="29" cy="102" r="4.5" fill="#c68a5e"/><circle cx="71" cy="102" r="4.5" fill="#c68a5e"/><rect x="45" y="72" width="10" height="16" rx="4" fill="#b0774e"/><ellipse cx="50" cy="55" rx="25" ry="24" fill="#c68a5e"/><path d="M24 54C24 30 38 24 52 26c14 2 24 12 24 28-8-12-18-16-28-14-10 2-18 6-24 14z" fill="#2a1810"/><g fill="#2a1810"><circle cx="31" cy="40" r="5.5"/><circle cx="39" cy="34" r="5.5"/><circle cx="50" cy="31" r="5.5"/><circle cx="61" cy="34" r="5.5"/><circle cx="69" cy="40" r="5.5"/></g>${faceBits('url(#mi)')}<g fill="#ff7eb6"><circle cx="70" cy="25" r="4"/><circle cx="76" cy="30" r="4"/><circle cx="70" cy="35" r="4"/><circle cx="64" cy="30" r="4"/></g><circle cx="70" cy="30" r="3.2" fill="#ffe27a"/></svg>`,
+grandma:`<svg viewBox="0 0 100 140" role="img" aria-label="Nana"><defs><radialGradient id="gi"><stop offset="0" stop-color="#7aa0b8"/><stop offset="1" stop-color="#3f6078"/></radialGradient></defs><ellipse cx="50" cy="135" rx="28" ry="4" fill="#2d5a3a" opacity=".25"/><circle cx="50" cy="15" r="11" fill="#eeeef6" stroke="#cfcfe0" stroke-width="2"/><path d="M22 133Q26 96 40 86h20Q74 96 78 133z" fill="#8fb08a"/><path d="M36 92h28l4 41H32z" fill="#fff3d6"/><rect x="43" y="108" width="14" height="10" rx="3" fill="#f6c9a8" opacity=".6"/><circle cx="31" cy="92" r="7" fill="#8fb08a"/><circle cx="69" cy="92" r="7" fill="#8fb08a"/><circle cx="28" cy="104" r="4.5" fill="#d29c70"/><circle cx="72" cy="104" r="4.5" fill="#d29c70"/><rect x="45" y="72" width="10" height="16" rx="4" fill="#bd885c"/><g fill="#eeeef6" stroke="#cfcfe0" stroke-width="1.5"><circle cx="27" cy="46" r="8"/><circle cx="73" cy="46" r="8"/><circle cx="30" cy="32" r="9"/><circle cx="70" cy="32" r="9"/><circle cx="42" cy="24" r="9"/><circle cx="58" cy="24" r="9"/></g><ellipse cx="50" cy="55" rx="25" ry="24" fill="#d29c70"/><path d="M24 56C20 28 36 20 50 20s30 8 26 36c-4-14-12-22-26-22S28 42 24 56z" fill="#eeeef6" stroke="#cfcfe0" stroke-width="1.5"/><g fill="#eeeef6" stroke="#cfcfe0" stroke-width="1.2"><circle cx="31" cy="40" r="5.5"/><circle cx="39" cy="34" r="5.5"/><circle cx="50" cy="31" r="5.5"/><circle cx="61" cy="34" r="5.5"/><circle cx="69" cy="40" r="5.5"/></g>${faceBits('url(#gi)')}<g fill="none" stroke="#c9923a" stroke-width="2"><circle cx="40" cy="58" r="10"/><circle cx="60" cy="58" r="10"/><path d="M50 57h0M30 56l-5-2M70 56l5-2"/></g><circle cx="80" cy="95" r="0"/></svg>`};
+const face=k=>portraits[k].replace('viewBox="0 0 100 140"','viewBox="12 6 76 76"');
+document.getElementById('sceneMari').innerHTML=portraits.mari;document.getElementById('sceneNana').innerHTML=portraits.grandma;document.getElementById('speaker').innerHTML=face('grandma');
+const clueEmojis=['🗝️','🔔','🗺️','🥧','💜'];let round=0,gems=0,stars=0;const found=new Set();
+function renderRound(){if(round>=rounds.length){document.getElementById('location').textContent='The Wishing-Well Garden';document.getElementById('promptTitle').textContent='The garden is in bloom!';document.getElementById('promptText').textContent='You found every clue! Nana and Mari have a surprise for you in the kitchen.';document.getElementById('fruitRow').innerHTML='<button class="primary" style="grid-column:1/-1" onclick="switchView(\'recipes\')">🍰 Celebrate with a recipe →</button>';document.getElementById('feedback').textContent='Adventure complete! The garden is sparkling with magic.';return}
+const r=rounds[round];document.getElementById('location').textContent=r.place;document.getElementById('promptTitle').textContent=r.title;document.getElementById('promptText').textContent=r.text;document.getElementById('speaker').innerHTML=round%2?face('mari'):face('grandma');document.getElementById('feedback').textContent='Choose the fruit that matches the clue!';document.getElementById('fruitRow').innerHTML=r.opts.map(([emoji,name])=>`<button class="fruit" onclick="guess('${name}',this)"><span class="emoji">${emoji}</span><b>${name}</b></button>`).join('')}
+function guess(name,el){if(round>=rounds.length)return;if(name===rounds[round].answer){el.classList.add('correct');document.querySelectorAll('.fruit').forEach(b=>b.disabled=true);const r=rounds[round];gems+=1;stars+=1;document.getElementById('gemCount').textContent=gems;document.getElementById('starCount').textContent=stars;found.add(round);document.getElementById('feedback').textContent='✨ '+r.note;drawJournal();sparkle(el);setTimeout(()=>{round++;renderRound()},1250)}else{el.classList.add('wrong');document.getElementById('feedback').textContent='Not quite! Take another look at Nana’s clue. 🌱';setTimeout(()=>el.classList.remove('wrong'),380)}}
+function drawJournal(){document.getElementById('clues').innerHTML=rounds.map((r,i)=>`<div class="clue ${found.has(i)?'':'locked'}"><div class="gem">${found.has(i)?clueEmojis[i]:'✦'}</div><div><h3>${found.has(i)?r.clue:'Garden clue '+(i+1)}</h3><p>${found.has(i)?r.note:'Find a fruit to reveal this clue'}</p></div></div>`).join('');let pct=found.size/rounds.length*100;document.getElementById('clueCount').textContent=`${found.size} / ${rounds.length} clues`;document.getElementById('progressBar').style.width=pct+'%';document.getElementById('progressLabel').textContent=pct+'%'}
+const meals=[{id:'breakfast',emoji:'🍯',name:'Breakfast',desc:'Sunshine flapjacks',recipe:'Nana’s Sunshine Flapjacks',ingredients:['🥚 Egg','🥛 Milk','🌾 Flour','🍯 Honey','🫐 Blueberries']},{id:'lunch',emoji:'🥪',name:'Lunch',desc:'Garden picnic plate',recipe:'Mari’s Garden Picnic',ingredients:['🍞 Bread','🥬 Lettuce','🍅 Tomato','🧀 Cheese','🥒 Cucumber']},{id:'snack',emoji:'🍓',name:'Snack',desc:'Berry garden bowl',recipe:'Berry Patch Snack Bowl',ingredients:['🍓 Strawberries','🫐 Blueberries','🍌 Banana','🥣 Yogurt','🍯 Honey']},{id:'dinner',emoji:'🥕',name:'Dinner',desc:'Rainbow veggie soup',recipe:'Nana’s Rainbow Soup',ingredients:['🥕 Carrot','🥔 Potato','🧅 Onion','🌽 Corn','🥣 Broth']},{id:'treat',emoji:'🍪',name:'Treat',desc:'Honey apple bites',recipe:'Honey Apple Bites',ingredients:['🍎 Apple','🍯 Honey','🌾 Oats','🧈 Butter']},{id:'cake',emoji:'🎂',name:'Special cake',desc:'Enchanted birthday cake',recipe:'Enchanted Garden Cake',ingredients:['🥚 Egg','🌾 Flour','🍓 Strawberries','🥛 Milk','✨ Sprinkles']},{id:'pie',emoji:'🥧',name:'Pie',desc:'Nana’s special tart pie',recipe:'Secret Orchard Tart Pie',ingredients:['🍎 Apples','🌾 Flour','🧈 Butter','🫐 Moonberries','🍯 Starlight Honey']}];let currentMeal=null;const cooked=new Set();
+function drawMeals(){document.getElementById('mealGrid').innerHTML=meals.map(m=>`<button class="meal ${currentMeal===m.id?'selected':''}" onclick="selectMeal('${m.id}')"><span class="emoji">${m.emoji}</span><strong>${m.name}${cooked.has(m.id)?' ✓':''}</strong><small>${m.desc}</small></button>`).join('')}
+function selectMeal(id){currentMeal=id;const m=meals.find(x=>x.id===id);drawMeals();document.getElementById('cookbox').innerHTML=`<h3>${m.emoji} ${m.recipe}</h3><p>Tap each ingredient to add it to Nana’s mixing bowl.</p><div class="ingredients" id="ingredients">${m.ingredients.map((x,i)=>`<button class="ingredient" onclick="addIngredient(${i},this)">${x}</button>`).join('')}</div><div class="cook-footer"><span class="cook-note" id="cookNote">0 of ${m.ingredients.length} ingredients gathered</span><button class="primary" id="cookBtn" onclick="finishRecipe()" disabled style="opacity:.48">Make the recipe</button></div>`}
+function addIngredient(i,b){if(b.classList.contains('added'))return;b.classList.add('added');b.disabled=true;b.textContent='✓ '+b.textContent;const els=[...document.querySelectorAll('.ingredient')],n=els.filter(x=>x.classList.contains('added')).length;document.getElementById('cookNote').textContent=n===els.length?'Everything is ready to mix! ✨':`${n} of ${els.length} ingredients gathered`;if(n===els.length){const btn=document.getElementById('cookBtn');btn.disabled=false;btn.style.opacity=1}}
+function finishRecipe(){if(!currentMeal)return;const m=meals.find(x=>x.id===currentMeal);if(cooked.has(currentMeal)){toast('This recipe is already in Nana’s book! 💛');return}cooked.add(currentMeal);stars+=2;document.getElementById('starCount').textContent=stars;drawMeals();document.getElementById('cookbox').innerHTML=`<h3>✨ ${m.recipe} is ready!</h3><p>Nana gives Mari a big hug. “You’re a wonderful garden helper!”</p><div style="font-size:29px">${m.emoji} 💛 👵🏼</div>`;toast('Recipe added to Nana’s book! +2 stars ⭐')}
+function switchView(view){document.querySelectorAll('.tab[data-view]').forEach(t=>t.classList.toggle('active',t.dataset.view===view));document.getElementById('adventure').classList.toggle('hide',view!=='adventure');document.getElementById('recipePanel').classList.toggle('show',view==='recipes');document.getElementById('treePanel').classList.toggle('show',view==='tree');if(view==='recipes')drawMeals()}
+function sparkle(el){const rect=el.getBoundingClientRect();for(let i=0;i<5;i++){const s=document.createElement('span');s.className='sparkle';s.textContent=['✨','🌟','💫'][i%3];s.style.left=rect.left+rect.width/2+Math.random()*65-32+'px';s.style.top=rect.top+'px';document.body.appendChild(s);setTimeout(()=>s.remove(),900)}}let toastTimer;function toast(t){const e=document.getElementById('toast');e.textContent=t;e.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>e.classList.remove('show'),2100)}
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>switchView(t.dataset.view)));document.getElementById('recipeJump').addEventListener('click',openRecipeBook);renderRound();drawJournal();drawMeals();
+
+const NEED=6;let voiceOn=false;
+const askList=[["Hello, Rosie! Can you really talk?","Hello, Mari! Garden magic wakes me up whenever a kind friend says hi. ✨"],["How do apples grow?","In spring I bloom with pink-white blossoms. Busy bees visit them, and by autumn each blossom becomes a crunchy apple!"],["How many apples make Nana's pie?","Six big apples! Solve my riddles and I'll drop one into your basket for every right answer."],["What's your favorite season?","Autumn! That's when my apples are ripe and the leaves turn gold. 🍂"],["Why do you have a face?","Every tree has a story, and mine is that I like making friends! Mari is my favorite visitor."],["What does an apple pie smell like?","Warm cinnamon, sweet apples, and golden butter crust. It smells like Nana's kitchen on a cozy day! 🥧"],["Do you ever get lonely?","Not when the birds and bees visit, and especially not when Mari comes to say hello. 🐝"]];
+const riddles=[
+{q:"Two apples hang on one branch and three on another. How many apples is that altogether?",o:["4","5","6"],a:"5"},
+{q:"I have a trunk but no suitcase, and leaves but no book. What am I?",o:["A tree","An elephant","A pie"],a:"A tree"},
+{q:"Mari picks 4 apples, and I give her 2 more. How many does she have now?",o:["5","6","7"],a:"6"},
+{q:"Cut me across the middle and you'll find a little star of seeds. What am I?",o:["A banana","A carrot","An apple"],a:"An apple"},
+{q:"Bake apples in a flaky crust with cinnamon, and what do you get?",o:["Apple pie","Apple soup","Apple pizza"],a:"Apple pie"},
+{q:"Which busy buzzing helper visits my blossoms so they can grow into apples?",o:["A snail","A bee","A fish"],a:"A bee"},
+{q:"I start as a tiny blossom in spring and end up crunchy and sweet. What am I?",o:["A pebble","A snowflake","An apple"],a:"An apple"},
+{q:"I have 6 apples and give 1 to Nana. How many are left for the pie?",o:["5","4","7"],a:"5"},
+{q:"I'm red or green or yellow, and I'm round. Roll me down a hill and I just might bounce! What fruit am I?",o:["A lemon","An apple","A grape"],a:"An apple"},
+{q:"Rosie has 3 apples on her left branch and 3 on her right. How many apples does she have?",o:["6","5","7"],a:"6"},
+{q:"I fall from a tree in autumn, red, orange, and gold, and Mari loves to crunch me. What am I?",o:["A leaf","A rock","A feather"],a:"A leaf"},
+{q:"Nana needs 6 apples for her pie and Mari has 4. How many more does she need?",o:["1","2","3"],a:"2"},
+{q:"I live inside every apple, and if you plant me I could grow a brand-new tree. What am I?",o:["A seed","A shoe","A cloud"],a:"A seed"},
+{q:"What do you call a tree that gives you red, crunchy fruit and shade on a sunny day?",o:["An apple tree","A cactus","A seaweed"],a:"An apple tree"},
+{q:"You can slice me, bake me, juice me, or eat me whole, and I keep the doctor away. What am I?",o:["A brick","An apple","A sock"],a:"An apple"},
+{q:"Mari picks 1 apple, then 2 more, then 3 more. How many apples did she pick?",o:["5","6","7"],a:"6"}];
+const trees={apple:{name:'Rosie',title:'Rosie the Talking Apple Tree',noun:'apples',meal:'pie',have:0,rq:[],col:'#e5383b',l1:'#4fae55',l2:'#78cf6a',asks:askList,rid:riddles,greet:"Hello, Mari! Nana needs 6 apples for her pie. Ask me anything, or solve my riddles and I'll drop an apple for each right answer!"}};
+let cur='apple';const T=()=>trees[cur];
+const B={rookie:['🌟','Riddle Rookie'],apple:['🍎','Apple Whisperer'],pie:['🥧','Pie Maker'],detective:['🔍','Garden Detective'],chef:['👩‍🍳','Little Chef']};
+const badges=new Set(),diary=[];
+function renderDiary(){document.getElementById('badges').innerHTML=Object.entries(B).map(([k,[e,n]])=>`<div class="badge ${badges.has(k)?'':'locked'}" title="${n}"><span>${badges.has(k)?e:'🔒'}</span><small>${n}</small></div>`).join('');document.getElementById('diaryList').innerHTML=diary.length?diary.slice(-6).reverse().map(x=>`<li>${x}</li>`).join(''):'<li>Your adventures will be written here...</li>'}
+function addDiary(t){diary.push(t);renderDiary()}
+function award(k){if(badges.has(k))return;badges.add(k);addDiary('🏅 Earned badge: '+B[k][1]);toast('🏅 New badge: '+B[k][1]+'!');renderDiary()}
+function say(t){if(!voiceOn||!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/[^\w\s.,!?'-]/g,''));u.pitch=1.3;u.rate=.95;speechSynthesis.speak(u)}
+let talkT;function talk(n){const w=document.querySelector('.tree-wrap svg');w.classList.add('talk');clearTimeout(talkT);talkT=setTimeout(()=>w.classList.remove('talk'),Math.min(3500,n*45))}
+function chat(m,t){document.getElementById('treeChat').innerHTML=(m?`<div class="bub"><div class="portrait">${face('mari')}</div><p>${m}</p></div>`:'')+`<div class="bub tree"><p>🌳 ${t}</p></div>`;say(t);talk(t.length)}
+function paint(){const t=T();document.querySelector('.canopy>g:nth-child(1)').setAttribute('fill',t.l1);document.querySelector('.canopy>g:nth-child(2)').setAttribute('fill',t.l2);document.querySelectorAll('.ap circle[r="9"]').forEach(c=>c.setAttribute('fill',t.col));document.querySelector('.tree-wrap').classList.toggle('pearmode',cur==='pear');document.getElementById('treeTitle').textContent=t.title}
+function drawTree(){const t=T();document.getElementById('appleCount').textContent=trees.apple.have;document.getElementById('basketNum').textContent=t.have;document.getElementById('basketLbl').textContent=t.noun;for(let i=0;i<NEED;i++)document.getElementById('ap'+i).classList.toggle('gone',i<t.have)}
+function pick(k){cur=k;paint();drawTree();chat('',T().greet);menu()}
+function menu(){const t=T();document.getElementById('treeActions').innerHTML=t.asks.map((x,i)=>[x,i]).sort(()=>Math.random()-.5).slice(0,4).map(([x,i])=>`<button class="ask" onclick="askTree(${i})">💬 ${x[0]}</button>`).join('')+(t.have>=NEED?`<button class="primary" onclick="switchView('recipes');selectMeal('${t.meal}')">${t.meal==='pie'?'🥧 Bake the apple pie':'🥮 Bake the pear tart'} →</button>`:'<button class="primary" onclick="giveRiddle()">🎲 Give me a riddle!</button>')}
+function askTree(i){const x=T().asks[i];chat(x[0],x[1])}
+function giveRiddle(){const t=T();if(!t.rq.length)t.rq=t.rid.map((_,i)=>i).sort(()=>Math.random()-.5);const r=t.rid[t.rq.pop()];chat("I'd love a riddle, "+t.name+"!",r.q);document.getElementById('treeActions').innerHTML=r.o.map(o=>`<button class="fruit" data-o="${o}">${o}</button>`).join('');document.querySelectorAll('#treeActions .fruit').forEach(b=>b.onclick=()=>answerRiddle(r,b))}
+function answerRiddle(r,b){const t=T(),o=b.dataset.o;if(o===r.a){document.querySelectorAll('#treeActions .fruit').forEach(x=>x.disabled=true);b.classList.add('correct');t.have++;stars++;document.getElementById('starCount').textContent=stars;sparkle(b);drawTree();addDiary(`📝 Solved ${t.name}'s riddle (${t.have}/${NEED} ${t.noun})`);award('rookie');if(t.have>=NEED)award(cur);chat(`Is it "${o}"?`,t.have>=NEED?`Yes! That's the sixth one! You have enough ${t.noun} for Nana! 🎉`:`Yes, clever Mari! Plop! A fresh one tumbles into your basket. ${cur==='apple'?'🍎':'🍐'}`);setTimeout(menu,2200)}else{b.classList.add('wrong');chat(`Is it "${o}"?`,"Hmm, not quite! Take another look at my riddle, sweet Mari. 🍃");setTimeout(()=>b.classList.remove('wrong'),380)}}
+document.getElementById('voiceBtn').onclick=e=>{voiceOn=!voiceOn;e.target.textContent='🔊 Voice: '+(voiceOn?'on':'off');if(!voiceOn&&window.speechSynthesis)speechSynthesis.cancel()};
+const fruitOf=id=>id==='pie'?'apple':null;
+const _sel=selectMeal;selectMeal=function(id){if(id==='pie'){const ap=trees.apple.have>=NEED,bb=badges.has('berry'),hy=badges.has('honey');if(!(ap&&bb&&hy)){currentMeal=id;drawMeals();const m=meals.find(x=>x.id===id);document.getElementById('cookbox').innerHTML=`<h3>${m.emoji} ${m.recipe}</h3><p>Nana’s special tart pie needs three magic things before you can start:</p><ul class="need"><li>${ap?'✅':'⬜'} ${NEED} apples from Rosie (${trees.apple.have}/${NEED})</li><li>${bb?'✅':'⬜'} Moonberries from the Whispering Forest</li><li>${hy?'✅':'⬜'} Starlight Honey from the Haunted Hollow</li></ul><div class="needbtns">${ap?'':'<button class="primary" onclick="switchView(\'tree\');pick(\'apple\')">🍎 Visit Rosie →</button>'}${bb&&hy?'':'<button class="primary" onclick="switchView(\'forest\')">🌲 Enter the Dark forest →</button>'}</div>`;return}}_sel(id)};
+const _fin=finishRecipe;finishRecipe=function(){const id=currentMeal,first=id&&!cooked.has(id);_fin();if(first&&cooked.has(id)){const k=fruitOf(id);if(k){trees[k].have-=NEED;drawTree();menu();award(id)}addDiary('🍰 Baked '+meals.find(x=>x.id===id).recipe);if(cooked.size>=4)award('chef')}};
+const _dj=drawJournal;let lf=0;drawJournal=function(){_dj();if(found.size>lf){lf=found.size;addDiary('🔍 Found clue: '+rounds[[...found].pop()].clue);if(found.size===rounds.length)award('detective')}};
+paint();chat("Hello, Rosie!",trees.apple.greet);drawTree();menu();drawMeals();renderDiary();
+
+function celebrate(id){const c=document.getElementById('celebrate');c.innerHTML=`<div class="cel-card"><div class="cel-chars">${portraits.mari}<div class="cel-pie">${id==='tart'?'🥮':'🥧'}</div>${portraits.grandma}</div><h2>${id==='tart'?"Mari's Pear Tart is ready!":"Mari's Apple Pie is ready!"}</h2><p>Warm, golden, and made with six ${id==='tart'?'pears from Pearl':'apples from Rosie'}. Nana beams, "Best garden helper ever!" 💛</p><p style="font-size:13px">The tree is already growing a fresh batch of fruit. 🌳</p><button class="primary" onclick="document.getElementById('celebrate').classList.remove('show')">Hooray! 🎉</button></div>`;c.classList.add('show');const card=c.firstChild;for(let i=0;i<24;i++){const f=document.createElement('span');f.className='confetti';f.textContent=['🎉','✨','🍎','🌸','⭐'][i%5];f.style.left=Math.random()*95+'%';f.style.animationDelay=Math.random()*1.5+'s';card.appendChild(f)}}
+const _fin2=finishRecipe;finishRecipe=function(){const id=currentMeal,first=(id==='pie'||id==='tart')&&!cooked.has(id);_fin2();if(first)setTimeout(()=>celebrate(id),500)};
+document.getElementById('heroArt').innerHTML=portraits.mari+portraits.grandma;
+
+B.seth=['🦋',"Tristan's Buddy"];
+let sTimer,dangerOn=false,dangersDone=0,wrongCount=0;const seen={adventure:1};
+const curView=()=>(document.querySelector('.tab.active')||{dataset:{}}).dataset.view||'adventure';
+function sethSay(t,ms=7500,html){const b=document.getElementById('sethBubble');b.className='seth-bubble show';b.innerHTML='<b>🦋 TRISTAN</b>'+(html||t);say(t);clearTimeout(sTimer);if(ms)sTimer=setTimeout(()=>b.classList.remove('show'),ms)}
+const tips={adventure:"Hi Mari! I'm Tristan, your butterfly guide. Tap me anytime for a hint, and I'll shout if I spot danger! 🦋",recipes:"Welcome to Nana's kitchen! Tap each ingredient to add it. Stay away from the hot oven and let Nana help with that! 🔥",tree:"Rosie loves riddles! Solve them to win apples for the pie. Tap me if you get stuck. 🍎"};
+const crossOut=(sel,name,ans)=>{const w=[...document.querySelectorAll(sel)].filter(b=>!b.disabled&&name(b)!==ans);if(w.length<2)return null;const b=w[0];b.classList.add('out');b.disabled=true;return name(b)};
+function sethHint(){if(dangerOn)return;const v=curView();
+if(v==='adventure'){if(round>=rounds.length)return sethSay("You found every clue! Let's celebrate in Nana's kitchen. 🍰");const r=rounds[round],n=crossOut('#fruitRow .fruit',b=>b.querySelector('b').textContent,r.answer);sethSay(n?`Psst, Mari! I flew over "${n}" and it doesn't match the clue. I'd cross it out! 🦋`:`Big clue: the answer starts with "${r.answer[0]}" and has ${r.answer.length} letters!`)}
+else if(v==='tree'){const t=T(),q=document.querySelector('#treeChat .tree p'),r=t.rid.find(x=>q&&q.textContent.includes(x.q));if(!r||!document.querySelector('#treeActions .fruit'))return sethSay(`Tap "Give me a riddle" and ${t.name} will drop ${t.noun} for every right answer. You have ${t.have} of ${NEED}!`);const n=crossOut('#treeActions .fruit',b=>b.dataset.o,r.a);sethSay(n?`Psst! It's not "${n}". I'd cross that one out. 🦋`:(isNaN(r.a)?`The answer starts with "${r.a.replace(/^(An|A) /,'')[0]}". Think hard!`:`Count slowly on your fingers. The number is ${r.a>5?'bigger than 5':'5 or smaller'}.`))}
+else if(v==='map')return sethSay(round>=rounds.length?"You found everything! Visit the kitchen to celebrate. 🍰":`Our next stop is ${rounds[round].place}. Follow the glowing path! 🗺️`);
+else{if(!currentMeal)return sethSay("Pick a recipe! The Secret Orchard Pie needs 6 apples from Rosie. The others are ready to cook now! 🍰");const nx=[...document.querySelectorAll('.ingredient')];if(!nx.length)return sethSay("This one needs more fruit. Let's visit Rosie, the talking tree! 🌳");const n=nx.find(b=>!b.classList.contains('added'));sethSay(n?`Next, try adding ${n.textContent.trim()}. You're doing great!`:'Everything is in the bowl! Tap "Make the recipe"! ✨')}}
+const dangers={adventure:[
+{e:'🐝',w:"Danger! A grumpy bee swarm is buzzing down the path!",o:[["Stand still and stay calm",1,"Great job! The bees buzzed right past us. 🐝"],["Wave your arms and run",0,"Oh no, that makes them cross! Stay calm instead."]]},
+{e:'🌩️',w:"Storm cloud overhead! Lightning is coming!",o:[["Stand under the tallest lonely tree",0,"Not safe! Lightning loves tall trees."],["Duck under the garden shelter",1,"Perfect! Safe and dry. ⛈️"]]},
+{e:'🌹',w:"Watch out! A thorny rose bush blocks the path!",o:[["Tiptoe around it carefully",1,"Smooth moves, Mari! Not a scratch. 🌹"],["Push straight through",0,"Ouch, thorns! Let's go around it instead."]]}],
+tree:[
+{e:'🍎',w:"Look up! A heavy fruit is about to fall from the branch!",o:[["Step aside quickly",1,"Phew! It landed with a thud right where you stood. 🍎"],["Stand still and stare",0,"Too risky! Move out of the way."]]},
+{e:'🐝',w:"A sleepy wasp is resting on a fallen fruit!",o:[["Leave it alone and tiptoe away",1,"Wise choice! It never even woke up. 😴"],["Poke it with a stick",0,"No way! That would make it angry."]]}],
+recipes:[
+{e:'🔥',w:"Careful! Nana's oven is very hot!",o:[["Ask Nana to open it",1,"Smart! Hot ovens are a grown-up job. 🧤"],["Open it myself",0,"Too hot! Always ask a grown-up."]]},
+{e:'🌾',w:"Watch your step! Flour spilled on the kitchen floor!",o:[["Wipe it up carefully",1,"Squeaky clean! No slipping today. 🧹"],["Run across it",0,"You could slip! Clean it up first."]]}]};
+function danger(v){if(!dangers[v]||dangerOn||curView()!==v||Math.random()>.45)return;let d=dangers[v][Math.floor(Math.random()*dangers[v].length)];d={...d,o:[...d.o].sort(()=>Math.random()-.5)};dangerOn=true;const box=document.getElementById('seth'),b=document.getElementById('sethBubble');clearTimeout(sTimer);box.classList.add('alert');
+const draw=msg=>{b.className='seth-bubble show danger';b.innerHTML=`<b>⚠️ TRISTAN · DANGER ALERT</b>${d.e} ${msg||d.w}`+d.o.map((o,i)=>`<button class="ask dopt" data-i="${i}">${o[0]}</button>`).join('');b.querySelectorAll('.dopt').forEach(x=>x.onclick=()=>choose(+x.dataset.i))};
+const choose=i=>{const o=d.o[i];if(o[1]){dangerOn=false;box.classList.remove('alert');dangersDone++;stars++;document.getElementById('starCount').textContent=stars;addDiary('🛡️ Tristan spotted danger and Mari stayed safe');if(dangersDone>=3)award('seth');sethSay(o[2]+' (+1 ⭐)',6500)}else draw(o[2])};draw();say(d.w)}
+const _sv=switchView;switchView=function(v){_sv(v);if(!v||dangerOn)return;if(!seen[v]){seen[v]=1;sethSay(tips[v],8000)}else setTimeout(()=>danger(v),800)};
+const _rr=renderRound;renderRound=function(){_rr();if(dangerOn)return;if(round>=rounds.length)sethSay("You did it, Mari! Every clue is found! Nana's kitchen is calling. 🎉");else if(round>0){sethSay(`Next stop: ${rounds[round].place}! Listen closely to the clue. 🦋`,5500);setTimeout(()=>danger('adventure'),6000)}};
+const _g=guess;guess=function(n,el){_g(n,el);if(el.classList.contains('wrong')&&++wrongCount%2===0&&!dangerOn)sethSay("Stuck? Tap me and I'll give you a hint! 🦋",5000)};
+document.getElementById('sethBtn').onclick=sethHint;
+document.querySelector('.hero').insertAdjacentHTML('beforeend','<div class="hero-seth">'+document.getElementById('sethBtn').innerHTML+'</div>');
+renderDiary();sethSay(tips.adventure,9000);
+
+tips.map="This is the garden map! Tap any spot to learn about it. The glowing path shows where we're headed next. 🗺️";
+const LOC=[{x:90,y:325,e:'🏡',n:"Nana's Cottage",d:"Home sweet home! Nana bakes treats here and keeps her magical recipe book.",go:['recipes','Open the kitchen 🍰']},
+{x:195,y:195,e:'🍌',d:"Golden fruit glows in the sunbeams. Nana's first riddle is waiting here.",go:['adventure','Go to the adventure ▶']},
+{x:335,y:305,e:'🍓',d:"Bluebells chime softly between the berry bushes. Watch out for buzzing bees!",go:['adventure','Go to the adventure ▶']},
+{x:470,y:160,e:'🍉',d:"Moonlit vines whisper secrets, and the whole grove hums with magic.",go:['adventure','Go to the adventure ▶']},
+{x:565,y:295,e:'🍎',d:"This is where Rosie, the talking apple tree, lives! She trades apples for riddles.",go:['tree','Chat with Rosie 🍎']},
+{x:620,y:95,e:'⛲',d:"A sparkling wishing well that grants garden gems. The adventure ends here!",go:['adventure','Go to the adventure ▶']}];
+const HAZ=[{x:262,y:258,e:'🐝',t:"Bees buzz around the berry patch. If you meet them, stay calm and still!"},{x:520,y:222,e:'⛈️',t:"Storm clouds sometimes roll over the melon grove. Find a shelter if the sky turns dark!"},{x:140,y:262,e:'🌹',t:"Thorny roses grow along the path. Tiptoe around them, Mari!"}];
+let mapSel=0;
+const here=()=>Math.min(round,rounds.length-1)+1;
+const locName=i=>i===0?LOC[0].n:rounds[i-1].place;
+const locState=i=>(i===0||(i===4&&!found.has(3)&&round!==3))?'home':found.has(i-1)?'done':(i-1===round?'cur':'locked');
+function drawMap(){const h=here();let seg='',nodes='',pin='';
+for(let i=1;i<LOC.length;i++){const a=LOC[i-1],b=LOC[i],mx=(a.x+b.x)/2,on=i-1<=round,nx=i-1===round;seg+=`<path d="M${a.x} ${a.y}C${mx} ${a.y},${mx} ${b.y},${b.x} ${b.y}" fill="none" stroke="${on?'#5ef0ff':'#5a6aa0'}" stroke-width="${on?5:3}" stroke-linecap="round" class="${nx?'seg-next':''}" opacity="${on?.95:.5}" ${on?'style="filter:drop-shadow(0 0 6px #5ef0ff)"':''}/>`}
+LOC.forEach((l,i)=>{const st=locState(i),c=st==='done'?'#4dffb0':st==='cur'?'#ff4fd8':st==='locked'?'#5a6aa0':'#5ef0ff';nodes+=`<g class="mnode ${st==='cur'?'cur':''} ${st==='locked'?'locked':''}" data-i="${i}"><circle class="ring" cx="${l.x}" cy="${l.y}" r="34" fill="none" stroke="${c}" stroke-width="2" opacity=".5"/><circle class="base" cx="${l.x}" cy="${l.y}" r="27" fill="#0b1038" stroke="${c}" stroke-width="3"/><text x="${l.x}" y="${l.y+1}" font-size="26" text-anchor="middle" dominant-baseline="central">${st==='locked'?'🔒':l.e}</text>${st==='done'?`<circle cx="${l.x+21}" cy="${l.y-21}" r="9" fill="#4dffb0"/><text x="${l.x+21}" y="${l.y-20}" font-size="11" text-anchor="middle" dominant-baseline="central" fill="#04261a">✓</text>`:''}<text class="mlabel" x="${l.x}" y="${l.y+50}" text-anchor="middle">${locName(i)}</text></g>`});
+const L=LOC[h];pin=`<g class="pin"><rect x="${L.x-62}" y="${L.y-70}" width="42" height="42" rx="12" fill="#0b1038" stroke="#ff4fd8" stroke-width="2.5"/>${face('mari').replace('<svg ',`<svg x="${L.x-60}" y="${L.y-68}" width="38" height="38" `)}<text x="${L.x+30}" y="${L.y-48}" font-size="26">🦋</text></g>`;
+const haz=HAZ.map((z,i)=>`<text class="mhaz" data-h="${i}" x="${z.x}" y="${z.y}" text-anchor="middle">${z.e}</text><text x="${z.x+14}" y="${z.y-12}" font-size="12">⚠️</text>`).join('');
+const trees='<text x="40" y="150" font-size="26">🌲</text><text x="405" y="75" font-size="26">🌳</text><text x="260" y="120" font-size="22">🌷</text><text x="430" y="360" font-size="26">🌲</text><text x="660" y="215" font-size="24">🌸</text><text x="560" y="385" font-size="22">🌻</text>';
+document.getElementById('mapWrap').innerHTML=`<svg viewBox="0 0 700 420" role="img" aria-label="Map of the magical garden"><defs><pattern id="mg" width="35" height="35" patternUnits="userSpaceOnUse"><path d="M35 0H0V35" fill="none" stroke="#5ef0ff" stroke-opacity=".1"/></pattern><radialGradient id="mb"><stop offset="0" stop-color="#173a8a"/><stop offset="1" stop-color="#080d30"/></radialGradient></defs><rect width="700" height="420" fill="url(#mb)"/><rect width="700" height="420" fill="url(#mg)"/><ellipse cx="300" cy="385" rx="90" ry="26" fill="#1fe0a8" opacity=".18" stroke="#1fe0a8" stroke-opacity=".5"/><text x="300" y="389" font-size="12" text-anchor="middle" fill="#9fe">Lily Pond</text>${seg}${trees}${haz}${nodes}${pin}</svg>`;mapInfo(mapSel)}
+function mapInfo(i){mapSel=i;const l=LOC[i],st=locState(i);let btn='';if(st==='locked')btn='<p>🔒 Solve the earlier clues to unlock this place.</p>';else btn=`<button class="primary" onclick="switchView('${l.go[0]}')">${st==='cur'&&i>0&&i!==4?'Continue the adventure ▶':l.go[1]}</button>`;
+document.getElementById('mapInfo').innerHTML=`<b>${locName(i)}</b> ${st==='done'?'✅ Found':st==='cur'?'📍 Mari is here':st==='home'?(i?'🌳 Always open':'🏡'):'🔒'}<p>${l.d}</p>${st==='done'&&i>0?`<p>🗝️ Clue found: ${rounds[i-1].clue}</p>`:''}${btn}`}
+document.getElementById('mapWrap').addEventListener('click',e=>{const n=e.target.closest('[data-i]'),z=e.target.closest('[data-h]');if(n)mapInfo(+n.dataset.i);else if(z)sethSay(HAZ[+z.dataset.h].t,7000)});
+const _sv3=switchView;switchView=function(v){document.getElementById('mapPanel').classList.toggle('show',v==='map');if(v==='map')drawMap();_sv3(v)};
+const _rr2=renderRound;renderRound=function(){_rr2();if(document.getElementById('mapPanel').classList.contains('show'))drawMap()};
+
+function openRecipeBook(){switchView('recipes');currentMeal=null;drawMeals();document.getElementById('cookbox').innerHTML='<h3>Choose a recipe to begin</h3><p>Every good garden adventure has a delicious side quest.</p><div class="ingredients">🍓 🥕 🥚 🍯 🥧</div>';const p=document.getElementById('recipePanel');p.scrollIntoView({behavior:'smooth',block:'start'});p.classList.remove('flash');void p.offsetWidth;p.classList.add('flash')}
+</script><script>
+(function(){
+var S=[
+{a:'🚪🌲🌲',t:'The Forest Gate',x:'Nana’s special tart needs her favorite berry, the glowing Moonberry, and it only grows deep in the Whispering Forest. The old gate creaks in the dark… How do you go in?',o:[['Tiptoe in with the lantern held low',1,'Not one twig snaps. Brave and quiet!'],['Stomp in, singing loudly',0,'CRACK! Something in the dark growls back. Gulp!'],['Wait outside until sunrise',2,'The forest sighs… the berries glow best at night. Try again!']]},
+{a:'🌲👀🌲👀🌲',t:'Eyes in the Dark',x:'Two glowing eyes blink at you from the branches… and then two more!',o:[['Say a kind, quiet “Hello?”',1,'“Hoo-hoo!” A friendly owl points the way. 🦉'],['Scream and sprint away',0,'You trip over a root! Ouch, but you’re okay.'],['Throw a pinecone at them',0,'The owl hoots angrily and flaps at you!']]},
+{a:'🌫️🌉🌫️',t:'The Creaky Bridge',x:'A foggy bridge sways over a black stream. The boards go creeeeak…',o:[['Test each plank before stepping',1,'Slow and steady. You cross safely! 🌉'],['Leap across in one big jump',0,'A plank snaps! You grab the rope, heart pounding.'],['Close your eyes and run',0,'Whoops! You wobble and almost tumble in.']]},
+{a:'🪵🍄🪵',t:'The Rustling Log',x:'Something rustles inside a hollow log. Rustle… rustle… SNIFF!',o:[['Peek in gently with the lantern',1,'A sleepy hedgehog gives you a tiny wave. 🦔'],['Poke it with a stick',0,'The hedgehog puffs up with a huffy squeak!'],['Tiptoe away backwards',2,'The berry trail leads right past the log. Try something else!']]},
+{a:'👻🌙🌳',t:'The Tall Shadow',x:'A tall, floaty shape stands in the mist with its arms stretched wide. It doesn’t move… does it?',o:[['Hold the lantern high and step closer',1,'It’s only an old scarecrow in a ragged hat! Tristan giggles. 🧥'],['Close your eyes and hum loudly',0,'Open your eyes! You bumped into a prickly bush.'],['Shout “BOO!” at it',0,'Your own echo booms back and makes you jump!']]},
+{a:'🫐✨🫐',t:'The Moonberry Bush',x:'There! A bush glows soft blue, covered in Nana’s favorite Moonberries. Some are bright and ripe, some are dull and green.',o:[['Gently pick only the glowing ripe ones',1,'Perfect! Your basket glows with Moonberries. 🫐'],['Grab every berry you can reach',0,'Unripe berries are sour and the bush shakes!'],['Shake the whole bush',0,'Berries rain down and bounce away into the dark!']]}];
+var i=0,h=3,$=function(id){return document.getElementById(id)};
+if(typeof B!=='undefined')B.berry=['🫐','Moonberry Hero'];
+if(typeof tips!=='undefined')tips.forest='Shh… the Whispering Forest is spooky, but you’re brave! Think calmly, tiptoe, and use your lantern. 🕯️';
+function hearts(){$('fHearts').textContent='🕯️'.repeat(h)+'🌑'.repeat(3-h)}
+function draw(){window.sfx&&window.sfx('step');hearts();var s=S[i];$('fArt').textContent=s.a;$('fT').textContent=s.t;$('fX').textContent=s.x;$('fM').textContent='';$('fS').textContent='Step '+(i+1)+' of '+S.length;
+var o=$('fO');o.innerHTML='';s.o.map(function(q){return q}).sort(function(){return Math.random()-.5}).forEach(function(q){var b=document.createElement('button');b.className='fbtn';b.textContent=q[0];b.onclick=function(){pick(q,b)};o.appendChild(b)})}
+function pick(q,b){var m=$('fM');b.disabled=true;
+if(q[1]===1){window.sfx&&window.sfx('good');b.classList.add('good');[].forEach.call($('fO').children,function(x){x.disabled=true});m.textContent=q[2];
+var n=document.createElement('button');n.className='fbtn go';n.textContent=i===S.length-1?'Head home 🏡':'Creep onward ▶';n.onclick=function(){i===S.length-1?win():(i++,draw())};$('fO').appendChild(n)}
+else if(q[1]===0){window.sfx&&window.sfx('bad');b.classList.add('bad');h--;hearts();var z=document.querySelector('.fz');z.classList.remove('hurt');void z.offsetWidth;z.classList.add('hurt');m.textContent=q[2];
+if(h<=0){m.textContent='The lantern flares bright! Tristan guides you back to the gate. Try again! 🦋';[].forEach.call($('fO').children,function(x){x.disabled=true});setTimeout(function(){i=0;h=3;draw()},2600)}}
+else{m.textContent=q[2]}}
+function win(){window.sfx&&window.sfx('win');$('fArt').textContent='🫐🥧🏡';$('fT').textContent='You Found Nana’s Berries!';$('fX').textContent='Mari tiptoed out of the forest with a basket of glowing Moonberries. Nana’s special tart pie will be the best ever!';$('fM').textContent='⭐ +3 stars · 🏅 Moonberry Hero';$('fS').textContent='Quest complete';
+try{stars+=3;$('starCount').textContent=stars;award('berry');addDiary('🫐 Found the Moonberries in the Whispering Forest')}catch(e){}
+var o=$('fO');o.innerHTML='';[['Enter the Haunted Hollow 🦇',function(){window.lvl2&&window.lvl2()}],['Bake the tart in Nana’s kitchen 🥧',function(){switchView('recipes')}],['Creep through again 🌲',function(){i=0;h=3;draw()}]].forEach(function(p){var b=document.createElement('button');b.className='fbtn go';b.textContent=p[0];b.onclick=p[1];o.appendChild(b)})}
+var _sf=switchView;switchView=function(v){_sf(v);$('forestPanel').classList.toggle('show',v==='forest')};
+draw();
+})();
+</script>
+<script>
+(function(){
+var $=function(id){return document.getElementById(id)},AC,master,nb,amb,ambI,on=true,lvl=1;
+function ctx(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();master=AC.createGain();master.gain.value=.55;master.connect(AC.destination)}catch(e){}}if(AC&&AC.state==='suspended')AC.resume();return AC}
+function tone(f,t0,d,ty,v,f2){var o=AC.createOscillator(),g=AC.createGain();o.type=ty||'sine';o.frequency.setValueAtTime(f,t0);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t0+d);g.gain.setValueAtTime(.0001,t0);g.gain.exponentialRampToValueAtTime(v||.2,t0+.03);g.gain.exponentialRampToValueAtTime(.0001,t0+d);o.connect(g);g.connect(master);o.start(t0);o.stop(t0+d+.05)}
+function nbuf(){if(!nb){nb=AC.createBuffer(1,AC.sampleRate*2,AC.sampleRate);var a=nb.getChannelData(0);for(var k=0;k<a.length;k++)a[k]=Math.random()*2-1}return nb}
+function hiss(t0,d,v,fq){var s=AC.createBufferSource(),f=AC.createBiquadFilter(),g=AC.createGain();s.buffer=nbuf();f.type='bandpass';f.frequency.value=fq;g.gain.setValueAtTime(v,t0);g.gain.exponentialRampToValueAtTime(.0001,t0+d);s.connect(f);f.connect(g);g.connect(master);s.start(t0);s.stop(t0+d)}
+var N=[262,330,392,523];
+window.sfx=function(n){if(!on||!ctx())return;var t=AC.currentTime;
+if(n==='good')[523,659,784].forEach(function(f,k){tone(f,t+k*.09,.25,'triangle',.18)});
+else if(n==='bad'){tone(392,t,.22,'triangle',.2,370);tone(311,t+.24,.22,'triangle',.2,290);tone(233,t+.48,.5,'triangle',.2,170)}
+else if(n==='step'){tone(660,t,.12,'triangle',.12,520);tone(520,t+.14,.12,'triangle',.1,420)}
+else if(n==='tick'){tone(900,t,.06,'square',.06);tone(700,t+.16,.06,'square',.05)}
+else if(n==='win')[392,494,587,784,988].forEach(function(f,k){tone(f,t+k*.12,.35,'triangle',.18)});
+else if(n==='hoot'){tone(420,t,.25,'sine',.14,360);tone(380,t+.35,.45,'sine',.14,300)}
+else if(n==='creak'){tone(200,t,.3,'sine',.2,560);tone(560,t+.3,.25,'sine',.15,330)}
+else if(n==='howl')woo(t);
+else if(n.charAt(0)==='n')tone(N[+n.charAt(1)],t,.4,'triangle',.22)};
+function woo(t){var o=AC.createOscillator(),g=AC.createGain(),l=AC.createOscillator(),lg=AC.createGain();o.type='sine';o.frequency.setValueAtTime(330,t);o.frequency.linearRampToValueAtTime(540,t+.7);o.frequency.linearRampToValueAtTime(300,t+1.5);l.frequency.value=7;lg.gain.value=14;l.connect(lg);lg.connect(o.frequency);g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(.16,t+.5);g.gain.linearRampToValueAtTime(.0001,t+1.5);o.connect(g);g.connect(master);o.start(t);l.start(t);o.stop(t+1.6);l.stop(t+1.6)}
+function tune(){if(!AC||!on)return;var t=AC.currentTime,d=lvl===2?.22:.3,sc=lvl===2?[220,262,311,262,220,196,220,0]:[196,233,262,233,196,175,196,0];sc.forEach(function(f,k){if(f){tone(f,t+k*d,.16,'triangle',.13,f*.97);if(k%2===0)tone(f/2,t+k*d,.2,'sine',.1)}});var r=Math.random();setTimeout(function(){if(amb)sfx(r<.4?'howl':r<.7?'hoot':'creak')},2300)}
+function stopAmb(){if(amb){amb.forEach(function(x){try{x.stop()}catch(e){}});amb=null}clearInterval(ambI)}
+function ambient(go){stopAmb();if(!go||!on||!ctx())return;var t=AC.currentTime,g=AC.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.0001,t+2);g.connect(master);var f=lvl===2?73:55;amb=[f,f*1.01,f*1.5].map(function(x){var o=AC.createOscillator();o.frequency.value=x;o.connect(g);o.start();return o});
+var s=AC.createBufferSource(),bp=AC.createBiquadFilter(),wg=AC.createGain(),l=AC.createOscillator(),lg=AC.createGain();s.buffer=nbuf();s.loop=true;bp.type='bandpass';bp.frequency.value=500;wg.gain.value=0;l.frequency.value=.15;lg.gain.value=0;l.connect(lg);lg.connect(wg.gain);s.connect(bp);bp.connect(wg);wg.connect(master);s.start();l.start();amb.push(s,l);
+ambI=setInterval(tune,lvl===2?3300:4400);tune()}
+$('fSnd').onclick=function(){on=!on;this.textContent=on?'🔊':'🔇';if(on)ambient(true);else stopAmb()};
+if(typeof B!=='undefined')B.honey=['🍯','Hollow Hero'];
+var L2=[
+{a:'🌫️🕯️🌫️',t:'The Haunted Hollow',x:'Moonberries found! But Nana’s tart needs one more magic thing: Starlight Honey from the Haunted Hollow. Ghostly lights float between the twisted trees…',o:[['Follow the lights’ path, step by step',1,'The lights are only fireflies! Their glow shows the safe way. ✨'],['Chase the lights into the trees',0,'You get tangled in cobwebs! Eww!'],['Blow out your lantern to hide',0,'Now it’s pitch black and you stub your toe!']]},
+{type:'mem',a:'🦉🦉🦉',t:'The Echo Owls',x:'Three owls hoot a secret tune. Watch the lanterns glow, then tap them in the same order!'},
+{type:'tap',a:'🦇🦇🦇',t:'Bat Swarm!',x:'A swarm of bats swoops down! Flash your lantern as fast as you can: 12 taps in 6 seconds!'},
+{a:'⛲🗣️',t:'The Whispering Well',x:'A spooky voice drifts up from the old well: “Maaariii… jump in… the honey is down here…”',o:[['Say “No thank you!” and walk away',1,'The voice giggles and fades. It was only an echo! 💫'],['Lean over the edge to look',0,'Whoosh! You wobble, and Tristan tugs you back!'],['Answer “Okay!” and climb up',0,'Never follow strange voices! Tristan pulls you down.']]},
+{a:'🍯🐝🌳',t:'The Starlight Honey Tree',x:'At last! A glowing hollow tree drips Starlight Honey, guarded by a sleepy cloud of bees. Bzzzz…',o:[['Hum softly and slowly scoop a spoonful',1,'The bees hum along. You collect shimmering honey! 🍯'],['Swat at the bees',0,'The bees buzz up in a grumpy cloud!'],['Grab the whole honeycomb',0,'Sticky! The bees chase you in circles!']]}];
+var i=0,h=3,tk=0,iv;
+function hs(){$('fHearts').textContent='🕯️'.repeat(h)+'🌑'.repeat(3-h)}
+function clr(){tk++;clearInterval(iv)}
+function btn(txt,cls,fn){var b=document.createElement('button');b.className='fbtn '+(cls||'');b.textContent=txt;b.onclick=function(){fn(b)};$('fO').appendChild(b);return b}
+function lock(){[].forEach.call($('fO').children,function(x){x.disabled=true})}
+function hurt(m){h--;hs();sfx('bad');var z=document.querySelector('.fz');z.classList.remove('hurt');void z.offsetWidth;z.classList.add('hurt');$('fM').textContent=m;if(h<=0){clr();lock();$('fM').textContent='The lantern flares! Tristan guides you back to the hollow’s edge. Try again! 🦋';setTimeout(function(){i=0;h=3;r()},2800);return true}return false}
+function nxt(){sfx('good');btn(i===L2.length-1?'Take the honey home 🏡':'Creep onward ▶','go',function(){i===L2.length-1?win():(i++,r())})}
+function r(){clr();var s=L2[i];sfx('step');hs();document.querySelector('.fz').classList.add('l2');$('fArt').textContent=s.a;$('fT').textContent=s.t;$('fX').textContent=s.x;$('fM').textContent='';$('fS').textContent='Level 2 · Step '+(i+1)+' of '+L2.length;$('fO').innerHTML='';$('fO').style.gridTemplateColumns='';(s.type==='mem'?mem:s.type==='tap'?tap:choice)(s)}
+function choice(s){s.o.slice().sort(function(){return Math.random()-.5}).forEach(function(q){btn(q[0],'',function(b){b.disabled=true;if(q[1]===1){b.classList.add('good');lock();$('fM').textContent=q[2];nxt()}else{b.classList.add('bad');hurt(q[2])}})})}
+function mem(){var t=tk,seq=[0,0,0].map(function(){return Math.floor(Math.random()*4)}),pos=0,busy=true,bs=[];$('fO').style.gridTemplateColumns='1fr 1fr';
+function fl(n){bs[n].classList.add('good');sfx('n'+n);setTimeout(function(){bs[n].classList.remove('good')},350)}
+function play(){busy=true;pos=0;$('fM').textContent='Listen… 👂';seq.forEach(function(n,k){setTimeout(function(){if(t===tk)fl(n)},800+k*800)});setTimeout(function(){if(t===tk){busy=false;$('fM').textContent='Your turn! 🕯️'}},800+seq.length*800)}
+['🔴','🟡','🔵','🟢'].forEach(function(e,n){bs.push(btn(e,'big',function(){if(busy)return;fl(n);if(n===seq[pos]){pos++;if(pos===seq.length){busy=true;$('fO').style.gridTemplateColumns='';$('fM').textContent='The owls hoot happily! 🦉';nxt()}}else{busy=true;if(!hurt('Wrong hoot! Listen again…'))setTimeout(function(){if(t===tk)play()},1300)}}))});
+setTimeout(function(){if(t===tk)play()},700)}
+function tap(){var t=tk,c=0,need=12,left=6000,run=false;
+function upd(){if(t===tk)$('fM').textContent='🦇 '+c+'/'+need+' · ⏱ '+(left/1000).toFixed(1)+'s'}
+function tick(){left-=100;if(left%1000===0)sfx('tick');upd();if(left<=0){clearInterval(iv);run=false;c=0;left=6000;if(!hurt('Too slow! The bats nipped your hat. Try again!'))setTimeout(upd,1000)}}
+var b=btn('🔦 FLASH!','big go',function(){if(!run){run=true;iv=setInterval(tick,100)}c++;sfx('n'+(c%4));upd();if(c>=need){clearInterval(iv);b.disabled=true;$('fM').textContent='The bats flutter away! 🦇✨';nxt()}});upd()}
+function win(){clr();sfx('win');$('fArt').textContent='🍯🥧🏡';$('fT').textContent='You Found the Starlight Honey!';$('fX').textContent='With Moonberries AND Starlight Honey, Nana’s special tart pie will taste like pure magic!';$('fM').textContent='⭐ +5 stars · 🏅 Hollow Hero';$('fS').textContent='Level 2 complete';
+try{stars+=5;$('starCount').textContent=stars;award('honey');addDiary('🍯 Found Starlight Honey in the Haunted Hollow')}catch(e){}
+$('fO').innerHTML='';btn('Bake the tart in Nana’s kitchen 🥧','go',function(){switchView('recipes')});btn('Creep through the Hollow again 🦇','go',function(){window.lvl2()})}
+window.lvl2=function(){lvl=2;i=0;h=3;ambient(true);r()};
+var _s2=switchView;switchView=function(v){_s2(v);if(v==='forest')ambient(true);else{stopAmb();clr()}};
+})();
+</script>
+<div id="story" role="dialog" aria-label="Story intro"><div class="pg"><div class="art" id="stArt"></div><h2 id="stT"></h2><p id="stP"></p><div class="nav"><button class="skip" id="stSkip">Skip</button><div class="dots" id="stD"></div><button id="stNext">Next ▶</button></div></div></div>
+<script>
+(function(){
+var pages=[
+{t:'A Letter from Nana',e:'💌',p:'It was a golden morning when Mari found a letter on her pillow. “Come to the garden, sweet pea. Something magical is growing.”'},
+{t:'The Magical Garden',e:'🌿',p:'Behind Nana’s cottage, the flowers hummed, the vines whispered, and a tiny butterfly named Tristan fluttered down to say hello.',a:['mari']},
+{t:'Nana’s Riddles',e:'🍎',p:'“Solve my five fruit riddles,” said Nana with a twinkle, “and Rosie the Talking Apple Tree will help us bake the grandest pie ever.”',a:['mari','grandma']},
+{t:'Your Adventure Begins!',e:'✨',p:'Watch out for danger, listen to Tristan, and collect gems, stars, and apples along the way. Ready, Mari?',a:['mari','grandma']}];
+var i=0,root=document.getElementById('story');
+function show(){var g=pages[i];document.getElementById('stArt').innerHTML=g.a&&window.portraits?g.a.map(function(k){return portraits[k]}).join(''):'<span class="em">'+g.e+'</span>';
+document.getElementById('stT').textContent=g.t;document.getElementById('stP').textContent=g.p;
+document.getElementById('stD').innerHTML=pages.map(function(_,j){return '<i class="'+(j===i?'on':'')+'"></i>'}).join('');
+document.getElementById('stNext').textContent=i===pages.length-1?'Begin 🌱':'Next ▶'}
+function close(){root.classList.add('out');setTimeout(function(){root.remove()},600)}
+document.getElementById('stNext').onclick=function(){i<pages.length-1?(i++,show()):close()};
+document.getElementById('stSkip').onclick=close;show();
+document.querySelector('.hero button.primary')&&0;
+})();
+</script>
+<script>
+(function(){
+var KEY='mari_garden_save_v1',noSave=false;
+function save(){if(noSave)return;try{localStorage.setItem(KEY,JSON.stringify({round:round,gems:gems,stars:stars,found:[...found],badges:[...badges],diary:diary,cooked:[...cooked],apples:trees.apple.have}))}catch(e){}}
+var d=null;try{d=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){}
+if(d&&typeof d.round==='number'){
+try{round=Math.min(d.round,rounds.length);gems=d.gems|0;stars=d.stars|0;found.clear();(d.found||[]).forEach(function(x){found.add(x)});badges.clear();(d.badges||[]).forEach(function(x){badges.add(x)});diary.length=0;(d.diary||[]).forEach(function(x){diary.push(x)});cooked.clear();(d.cooked||[]).forEach(function(x){cooked.add(x)});trees.apple.have=d.apples|0;lf=found.size;
+document.getElementById('gemCount').textContent=gems;document.getElementById('starCount').textContent=stars;
+drawJournal();renderRound();drawTree();menu();drawMeals();renderDiary();
+var st=document.getElementById('story');if(st)st.remove();
+setTimeout(function(){toast('Welcome back, Mari! Your adventure was saved. 💛')},600)}catch(e){}}
+setInterval(save,2000);window.addEventListener('pagehide',save);document.addEventListener('visibilitychange',save);
+var rb=document.getElementById('resetBtn'),armed=false,tm;
+rb.onclick=function(){if(!armed){armed=true;rb.textContent='Tap again to erase your progress';clearTimeout(tm);tm=setTimeout(function(){armed=false;rb.textContent='↺ Start a new game'},4000);return}
+noSave=true;try{localStorage.removeItem(KEY)}catch(e){}location.reload()};
+var z=document.querySelector('.fz');
+for(var k=0;k<12;k++){var f=document.createElement('span');f.className='ff';f.style.left=(6+Math.random()*88)+'%';f.style.top=(14+Math.random()*58)+'%';f.style.animationDelay=(-Math.random()*6)+'s';f.style.animationDuration=(4+Math.random()*5)+'s';z.insertBefore(f,z.firstChild)}
+['c','p'].forEach(function(c){var m=document.createElement('span');m.className='mush '+c;z.insertBefore(m,z.firstChild)});
+})();
+</script>
+</body></html>
